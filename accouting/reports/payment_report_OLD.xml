@@ -1,0 +1,215 @@
+<?xml version="1.0"?>
+<t t-name="custom_payments_odoo13.payment_report_view">
+			<t t-call="web.html_container">
+				<t t-call="web.external_layout">
+<style>
+table {
+  width:100%;
+}
+table, th, td {
+  border: 1px solid black;
+  border-collapse: collapse;
+}
+th, td {
+  padding: 10px;
+  font-size: 11px;
+}
+#rcorners1{
+                              border-radius: 5px;
+                              border: 0px solid gray;
+                              padding: 4px; 
+                              width: 200px;
+                              text-align:center;
+                               margin: auto; 
+                               font-size:13;
+                            }
+  #rcorners2{
+                          border-radius: 5px;
+                          border: 1px solid gray;
+                          padding: 4px; 
+                           margin: auto; 
+                        }
+
+#t01 tr:nth-child(even) {
+  background-color: #eee;
+}
+#t01 tr:nth-child(odd) {
+ background-color: #fff;
+}
+#t01 th {
+  background-color: black;
+  color: white;
+}
+</style>
+
+					<t t-foreach="docs" t-as="doc">
+
+						<div class="page">
+							<div id="rcorners1">
+									<t t-if="docs.payment_type == 'receipt'">
+										<u><strong>سند قبض </strong></u>
+									</t>
+									 <t t-else="">
+										<u> <strong>سند صرف</strong></u>
+									 </t>
+							</div>
+			
+			<table style="border: 0px solid white;background-color:white">        
+                        <tr style="border: 0px solid white;background-color:white">
+                                <td style="border: 0px solid white;background-color:white">
+                                    <p id="rcorners2">
+                                    <strong> التاريخ:</strong> <span t-esc="docs.payment_date"/>
+                                    </p>
+                                </td>
+                                <td style="border: 0px solid white;background-color:white">
+                                     <p id="rcorners2">
+                                     <strong> حالة السند: </strong>
+                                       <span t-esc="docs.payment_state"/>
+                                      </p>
+                                </td>
+                                <td style="border: 0px solid white;background-color:white">
+                                    <p id="rcorners2">
+                                    <strong> رقم المستند :</strong>
+                                    <span t-esc="docs.payment_seq"/>
+                                     </p>
+                                </td>
+                                
+                        </tr>
+	                     <tr style="border: 0px solid white;background-color:white">
+	                                <td style="border: 0px solid white;background-color:white">
+	                                    <p id="rcorners2">
+	                                    <strong>  الصندوق :</strong><span t-esc="docs.journal_id.name"/>
+	                                    </p>
+	                                </td>
+	                                <td style="border: 0px solid white;background-color:white">
+	                                     <p id="rcorners2">
+	                                     <strong>مبلغ السند :</strong><span t-esc="docs.payment_amount" t-options="{'widget': 'monetary', 'display_currency': docs.currency_id}"/>
+	                                      </p>
+	                                </td>
+	                                <td style="border: 0px solid white;background-color:white">
+	                                    <p id="rcorners2">
+	                                    <strong> العملة: </strong><span t-esc="docs.currency_id.name"/>
+	                                     </p>
+	                                </td>
+	                        </tr>
+	                        <tr style="border: 0px solid white;background-color:white">
+	                                <td colspan="2" style="border: 0px solid white;background-color:white">
+	                                    <p id="rcorners2">
+	                                    <strong> البيان : </strong><span t-esc="docs.desc"/>
+	                                    </p>
+	                                </td>
+	                                <td style="border: 0px solid white;background-color:white">
+	                                     <p id="rcorners2">
+			                                     <t t-if="docs.payment_type == 'receipt'">
+													<strong> المستفيد : </strong><span t-esc="docs.owner_name"/>
+												</t>
+											 <t t-else="">
+												 <strong> الستلم : </strong><span t-esc="docs.owner_name"/>
+											 </t>
+	                                      </p>
+	                                </td>
+	                                
+	                        </tr>
+                    </table>
+
+<!-- 							 <div class="row mt32 pims_report_content">
+
+                                    <div class="col-3">
+                                        <strong>التاريخ :</strong><p t-esc="docs.payment_date"></p>
+                                    </div>
+                                    <div class="col-3">
+                                        <strong> حالة السند: </strong><p t-esc="docs.payment_state"></p>
+                                    </div>
+								    <div class="col-3">
+                                        <strong> رقم المستند :</strong><p t-esc="docs.payment_seq"></p>
+                                    </div>
+							 </div>
+						     <div class="row mt32 pims_report_content">
+
+                                    <div class="col-3">
+                                        <strong>  الصندوق :</strong><p t-esc="docs.journal_id.name"></p>
+                                    </div>
+                                    <div class="col-3">
+                                        <strong>مبلغ السند :</strong><p t-esc="docs.payment_amount" t-options="{'widget': 'monetary', 'display_currency': docs.currency_id}"></p>
+                                    </div>
+								    <div class="col-3">
+                                        <strong> العملة: </strong><p t-esc="docs.currency_id.name"></p>
+                                    </div>
+							 </div>
+							
+						     <div class="row mt32 pims_report_content">
+								<div class="col-3">
+									<strong> البيان : </strong><p t-esc="docs.desc"></p>
+								</div>
+								 <div class="col-3">
+									 	<t t-if="docs.payment_type == 'receipt'">
+										<strong> المستفيد : </strong><p t-esc="docs.owner_name"></p>
+									</t>
+									 <t t-else="">
+										 <strong> الستلم : </strong><p t-esc="docs.owner_name"></p>
+									 </t>
+
+								</div>
+							</div> -->
+							<br/>
+							<table id="t01">
+								<thread>
+									<th style="width: 20%">رقم الحساب</th>
+									<th class="text-center" style="width: 20%">الحساب</th>
+									<th class="text-center" style="width: 20%">البيان</th>
+									<th class="text-center" style="width: 10%">مبلغ السند</th>
+									<th class="text-center" style="width: 10%">العملة</th>
+
+
+								</thread>
+								<tbody>
+									<t t-foreach="docs.paymt_lines" t-as="line">
+										<tr>
+											<td><span t-esc="line.account_id.code"/></td>
+											<td><span t-esc="line.account_id.name"/></td>
+											<td><span t-esc="line.desc"/></td>
+											<td><span t-esc="line.l_payment_amount" t-options="{'widget': 'monetary', 'display_currency': line.currency_id}"/></td>
+											<td><span t-esc="line.currency_id.name"/></td>
+										</tr>
+									</t>
+
+								</tbody>
+							</table>
+							<br/>
+							<br/>
+							<br/>
+							<br/>
+							
+		
+							<table style="border: 0px solid white;background-color:white;width:100%;text-align:center">
+								<tr style="border: 0px solid white;background-color:white;">
+									<td style="border: 0px solid white;background-color:white"> المدير العام</td>
+									<td style="border: 0px solid white;background-color:white"> المحاسب </td>
+									<td style="border: 0px solid white;background-color:white"> المستلم </td>
+								</tr>
+								<tr style="border: 0px solid white;background-color:white">
+									<td style="border: 0px solid white;background-color:white"> --------------------------------------- </td>
+									<td style="border: 0px solid white;background-color:white"> --------------------------------------- </td>
+									<td style="border: 0px solid white;background-color:white"> --------------------------------------- </td>
+								</tr>
+							</table>
+<!--							<div class="row justify-content-end">-->
+<!--							<div class="col-5">-->
+<!--								<table class="table table-sm">-->
+<!--									<tr>-->
+<!--										<td class="text-center" style="width: 50%"><strong>الإجمالي</strong></td>-->
+<!--										<td class="text-center" style="width: 25%"><span t-esc="docs.amount_total"/></td>-->
+<!--										<td class="text-center" style="width: 25%"><span t-esc="docs.amount_total"/></td>-->
+<!--									</tr>-->
+<!--								</table>-->
+<!--							</div>-->
+<!--						</div>-->
+
+ْ						</div>
+					</t>
+				</t>
+				</t>
+	</t>
+
+
+	

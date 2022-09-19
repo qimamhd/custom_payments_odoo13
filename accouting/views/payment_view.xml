@@ -1,0 +1,201 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <data>
+        <record id="custom_payment_view" model="ir.ui.view">
+            <field name="name">custom payment</field>
+            <field name="model">custom.account.payment</field>
+            <field name="arch" type="xml">
+                <form>
+                    <header>
+                       <button name="action_draft" string="الغاء الاعتماد وحذف القيود" type="object" class="oe_highlight" groups="custom_payments_odoo13.group_delete_pym_users"
+                                    attrs="{'invisible':[('payment_state','=','draft')]}" />
+
+                         <button name="custom_post" string="اعتماد وانشاء القيود " type="object" class="oe_highlight" groups="account.group_account_user"
+                                    attrs="{'invisible':[('payment_state','=','posted')]}" />
+
+
+                    </header>
+                     <sheet>
+                          <h1>
+                              <strong><field name="payment_type" readonly="1"></field></strong>
+<!--                              <t t-if="payment_type == 'receipt'">-->
+<!--                                <strong>سند القبض</strong>-->
+<!--                              </t>-->
+<!--                             <t t-if="payment_type == 'issue'">-->
+<!--                                <strong>سند الصرف</strong>-->
+<!--                              </t>-->
+                          </h1>
+                         <br></br><br></br>
+                            <group>
+                                <group string="معلومات السند">
+                                    <field name="payment_seq" string="رقم السند" attrs="{'readonly':[('payment_state','=','posted')]}"/>
+                                    <field name="payment_date" string="تاريخ السند"  attrs="{'readonly':[('payment_state','=','posted')]}"/>
+                                    <field name="payment_state" string="حالة السند"  readonly="1"/>
+                                    <field name="applied_by" string="طلب بواسطة " attrs="{'readonly':[('payment_state','=','posted')]}"/>
+                                    <field name="pay_type" string="طريقة الدفع" attrs="{'readonly':[('payment_state','=','posted')]}"/>
+                                    <field name="cost_cnr_id" string="مركز التكلفة" attrs="{'readonly':[('payment_state','=','posted')]}"/>
+                                    <field name="check_multi_currency" invisible="1"/>
+                                </group>
+                                <group string="معلومات الدفع">
+                                    <field name="journal_id" string="من حساب"  options="{'no_create': True}" attrs="{'readonly':[('payment_state','=','posted')]}"/>
+                                    <field name="payment_amount" string="مبلغ السند" attrs="{'readonly':[('payment_state','=','posted')]}"/>
+                                    <field name="currency_id" string="عملة السند" options="{'no_create': True}" groups="base.group_multi_currency" attrs="{'readonly':[('payment_state','=','posted')]}"/>
+                                    <field name="curr_rate" string="سعر الصرف" options="{'no_create': True}" groups="base.group_multi_currency" attrs="{'readonly':[('payment_state','=','posted')]}"/>
+                                    <field name="local_amount" string="المقابل بعملة المحلية" groups="base.group_multi_currency" attrs="{'readonly':[('payment_state','=','posted')]}"/>
+                                    <field name="payment_amt_char" string="مبلغ كتابتا"  attrs="{'readonly':[('payment_state','=','posted')]}"/>
+                                </group>
+                                <group string="معلومات المستلم / المستفيد">
+                                    <field name="owner_name" string="اسم المستلم / المستفيد" attrs="{'readonly':[('payment_state','=','posted')]}"/>
+                                    <field name="desc" string="البيان"  attrs="{'readonly':[('payment_state','=','posted')]}"/>
+                                </group>
+                                <group  string="معلومات المؤسسة" >
+                                    <field name="company_id" string="الشركة"  options="{'no_create': True}" groups="base.group_multi_company" attrs="{'readonly':[('payment_state','=','posted')]}"/>
+<!--                                    <field name="company_branch_id" string="الفرع"  options="{'no_create': True}" attrs="{'readonly':[('payment_state','=','posted')]}"/>-->
+
+                                </group>
+                            </group>
+                            <notebook>
+                                <page string="تفاصيل السند">
+                                    <field name="paymt_lines" attrs="{'readonly':[('payment_state','=','posted')]}">
+                                        <tree editable="bottom" string="payment Lines">
+
+                                            <!-- Displayed fields -->
+                                            <field name="account_id" string="رقم الحساب"  options="{'no_create': True}"/>
+                                            <field name="partner_id" string ="الشريك"/>
+                                            <field name="desc" string="البيان" />
+                                            <field name="pymt_id" invisible="1"/>
+                                            <field name="l_payment_amount" string="مبلغ السند" />
+                                            <field name="currency_id" string="عملة السند" options="{'no_create': True}" groups="base.group_multi_currency"/>
+                                            <field name="curr_rate" string="سعر الصرف" groups="base.group_multi_currency"/>
+                                            <field name="l_local_amount" string="المابل بالمحلي" groups="base.group_multi_currency"/>
+
+                                        </tree>
+
+                                    </field>
+                                </page>
+                                 <page string="معلومات اخرى">
+                                    <group  string="معلومات عن المستلم / المستفيد">
+                                     <field name="owner_info_bank" string="معلومات بنك المستلم / المستفيد"  attrs="{'readonly':[('payment_state','=','posted')]}"/>
+                                    <field name="cheq_no" string="رقم الشيك" attrs="{'readonly':[('payment_state','=','posted')]}"/>
+                                     <field name="check_auto_posted" string="الترحيل الالي" readonly="1"/>
+
+                                </group>
+                                </page>
+                            </notebook>
+                            <br></br>
+                             <h3>
+                                 <strong>
+                                     <group string="الارصدة بالعملة المحلية للمؤسسة">
+                                         <br></br>
+                                         <group  class="text-left">
+                                             <field name="total_dr"  string="اجمالي المدين"></field>
+                                         </group>
+                                         <group  class="text-right">
+                                             <field name="total_cr"  string="اجمالي الدائن"></field>
+                                         </group>
+                                     </group>
+
+                                 </strong>
+                             </h3>
+                     </sheet>
+                   </form>
+            </field>
+        </record>
+      <!--payment Tree View-->
+        <record id="receipt_payments_tree_view" model="ir.ui.view">
+            <field name="name">custom payment tree</field>
+            <field name="model">custom.account.payment</field>
+            <field name="arch" type="xml">
+                <tree string="Payment Tree">
+                    <field name="payment_seq"/>
+                    <field name="owner_name"/>
+                    <field name="payment_date"/>
+                    <field name="payment_type"/>
+                    <field name="journal_id"/>
+                    <field name="payment_amount"/>
+                    <field name="desc"/>
+                    <field name="payment_state"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="issue_payments_tree_view" model="ir.ui.view">
+            <field name="name">custom payment tree</field>
+            <field name="model">custom.account.payment</field>
+            <field name="arch" type="xml">
+                <tree string="Payment Tree">
+                    <field name="payment_seq"  string="رقم السند"/>
+                    <field name="owner_name"  string="المستلم / المستفيد"/>
+                    <field name="payment_date"  string="تاريخ السند"/>
+                    <field name="payment_type"  string="نوع السند"/>
+                    <field name="journal_id"  string="من حساب"/>
+                    <field name="payment_amount"  string="مبلغ السند"/>
+                    <field name="desc"  string="تفاصيل السند"/>
+                    <field name="payment_state"  string="حالة السند"/>
+                </tree>
+            </field>
+        </record>
+        <record id="custom_payment_search" model="ir.ui.view">
+        <field name="name">البحث في السندات</field>
+        <field name="model">custom.account.payment</field>
+        <field name="arch" type="xml">
+             <search string=" البحث عن السندات">
+                    <field name="payment_seq"  string="رقم السند"/>
+                    <field name="owner_name"  string="المستلم / المستفيد"/>
+                    <field name="payment_date"  string="تاريخ السند"/>
+                    <field name="payment_type"  string="نوع السند"/>
+                    <field name="journal_id"  string="من حساب"/>
+                    <field name="payment_amount"  string="مبلغ السند"/>
+                    <field name="desc"  string="تفاصيل السند"/>
+                    <field name="payment_state"  string="حالة السند"/>
+
+                </search>
+            </field>
+        </record>
+
+     <!--Action for Recurring Templates-->
+<!--        <act_window id="action_account_payments_view"-->
+<!--                name="Custom Payment"-->
+<!--                res_model="custom.account.payment"-->
+<!--                view_mode="tree,form"-->
+<!--                target="new"/>-->
+<!--payment receipt-->
+        <record id="action_receipt_pays_view" model="ir.actions.act_window">
+            <field name="name">سند القبض</field>
+            <field name="res_model">custom.account.payment</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="view_mode">tree,form</field>
+            <field name="view_id" ref="receipt_payments_tree_view"/>
+            <field name="context">{'default_payment_type': 'receipt','default_payment_state': 'draft', 'default_type_id': 1}</field>
+            <field name="domain">[('payment_type', '=', 'receipt')]</field>
+            <field name="target">current</field>
+            <field name="help" type="html">
+                <p class="oe_view_nocontent_create">Click to create new recurring payment
+                </p>
+            </field>
+        </record>
+        <menuitem id="payments_menu" name="السندات" parent="account.menu_finance_entries" sequence="60"/>
+        <menuitem id="receipt_payments_menu" name="سندات القبض" parent="payments_menu"
+                  action="action_receipt_pays_view" groups="group_show_receipt_pym_users"/>
+
+<!--        payment issue-->
+        <record id="action_issue_pays_view" model="ir.actions.act_window">
+            <field name="name">سند الصرف</field>
+            <field name="res_model">custom.account.payment</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="view_mode">tree,form</field>
+            <field name="view_id" ref="issue_payments_tree_view"/>
+            <field name="context">{'default_payment_type': 'issue','default_payment_state': 'draft', 'default_type_id': 2}</field>
+            <field name="domain">[('payment_type', '=', 'issue')]</field>
+            <field name="target">current</field>
+            <field name="help" type="html">
+                <p class="oe_view_nocontent_create">Click to create new payment
+                </p>
+            </field>
+        </record>
+        <menuitem id="issue_payments_menu" name="سندات الصرف" parent="payments_menu"
+                  action="action_issue_pays_view" groups="group_show_issue_pym_users"/>
+
+    </data>
+
+</odoo>

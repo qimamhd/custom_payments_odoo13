@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+	<data>
+		<record id="group_show_receipt_pym_users" model="res.groups">
+			<field name="name">Dealing with Receipt payments</field>
+		</record>
+
+		<record id="all_receipt_h_users_rule" model="ir.rule">
+			<field name="name">Dealing Header Receipt payments</field>
+			<field name="model_id" ref="model_custom_account_payment" />
+			<field name="groups" eval="[(4, ref('group_show_receipt_pym_users'))]" />
+			<field name="perm_read" eval="True" />
+			<field name="perm_write" eval="True" />
+			<field name="perm_create" eval="True" />
+			<field name="perm_unlink" eval="True" />
+		</record>
+		<record id="all_receipt_l_users_rule" model="ir.rule">
+			<field name="name">Dealing Line Receipt payments</field>
+			<field name="model_id" ref="model_custom_account_payment_line" />
+			<field name="groups" eval="[(4, ref('group_show_receipt_pym_users'))]" />
+			<field name="perm_read" eval="True" />
+			<field name="perm_write" eval="True" />
+			<field name="perm_create" eval="True" />
+			<field name="perm_unlink" eval="True" />
+		</record>
+
+		<record id="group_show_issue_pym_users" model="res.groups">
+			<field name="name">Dealing with Issue Payment</field>
+		</record>
+
+		<record id="all_issue_h_users_rule" model="ir.rule">
+			<field name="name">Dealing Header Issue payments</field>
+			<field name="model_id" ref="model_custom_account_payment" />
+			<field name="groups" eval="[(4, ref('group_show_issue_pym_users'))]" />
+			<field name="perm_read" eval="True" />
+			<field name="perm_write" eval="True" />
+			<field name="perm_create" eval="True" />
+			<field name="perm_unlink" eval="True" />
+		</record>
+		<record id="all_issue_l_users_rule" model="ir.rule">
+			<field name="name">Dealing Line Issue payments</field>
+			<field name="model_id" ref="model_custom_account_payment_line" />
+			<field name="groups" eval="[(4, ref('group_show_issue_pym_users'))]" />
+			<field name="perm_read" eval="True" />
+			<field name="perm_write" eval="True" />
+			<field name="perm_create" eval="True" />
+			<field name="perm_unlink" eval="True" />
+		</record>
+		<record id="group_delete_pym_users" model="res.groups">
+			<field name="name">Delete payments</field>
+		</record>
+
+		<record id="delete_h_payment_users_rule" model="ir.rule">
+			<field name="name">Delete payments</field>
+			<field name="model_id" ref="model_custom_account_payment" />
+			<field name="groups" eval="[(4, ref('group_delete_pym_users'))]" />
+			<field name="perm_read" eval="True" />
+			<field name="perm_write" eval="True" />
+			<field name="perm_create" eval="True" />
+			<field name="perm_unlink" eval="True" />
+		</record>
+		<record id="delete_l_payment_users_rule" model="ir.rule">
+			<field name="name">Delete payments</field>
+			<field name="model_id" ref="model_custom_account_payment_line" />
+			<field name="groups" eval="[(4, ref('group_delete_pym_users'))]" />
+			<field name="perm_read" eval="True" />
+			<field name="perm_write" eval="True" />
+			<field name="perm_create" eval="True" />
+			<field name="perm_unlink" eval="True" />
+		</record>
+
+
+	</data>
+</odoo>
