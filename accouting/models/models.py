@@ -304,6 +304,171 @@ class custom_payment(models.Model):
 
         return mov_vals
 
+    def _update_payment_moves(self,moves):
+        all_move_vals = []
+        mov_vals= ''
+        for payment in self:
+            if payment.payment_type == 'receipt':
+                l_move_name = 'PRCPT/ ' + str(self.payment_seq)
+                l_account_internal_type = self.env['account.account'].search(
+                    [('id', '=', payment.journal_id.default_debit_account_id.id)]).internal_type
+                line_ids = []
+                debit_vals = (0, 0, {
+                    'name': payment.desc,
+                    'amount_currency': payment.payment_amount if payment.check_multi_currency and (
+                                payment.company_id.currency_id.id != payment.currency_id.id) else 0.0,
+                    'currency_id': payment.currency_id.id if payment.check_multi_currency and (
+                                payment.company_id.currency_id.id != payment.currency_id.id) else 0.0,
+                    'company_currency_id': payment.company_id.currency_id.id,
+                    'debit': payment.local_amount if payment.check_multi_currency else payment.payment_amount,
+                    'credit': 0,
+                    # 'balance': payment.local_amount if payment.check_multi_currency else payment.payment_amount,
+                    'date': payment.payment_date,
+                    'date_maturity': payment.payment_date,
+                    'account_id': payment.journal_id.default_debit_account_id.id,
+                    'account_internal_type': l_account_internal_type,
+                    # 'parent_state': 'posted',
+                    'ref': l_move_name,
+                    'journal_id': payment.journal_id.id,
+                    'company_id': payment.company_id.id,
+                    'quantity': 1,
+                    'custom_payment_line_id': payment.id,
+                })
+                line_ids.append(debit_vals)
+                for line in payment.paymt_lines:
+                    l_account_internal_type = self.env['account.account'].search(
+                        [('id', '=', line.account_id.id)]).internal_type
+
+                    credit_vals = (0, 0, {
+                        'name': line.desc,
+                        'amount_currency': -(line.l_payment_amount) if payment.check_multi_currency and (
+                                    payment.company_id.currency_id.id != line.currency_id.id) else -0.0,
+                        'currency_id': line.currency_id.id if payment.check_multi_currency and (
+                                    payment.company_id.currency_id.id != line.currency_id.id) else 0.0,
+                        'company_currency_id': payment.company_id.currency_id.id,
+                        'debit': 0.0,
+                        'credit': (line.l_local_amount) if payment.check_multi_currency else (line.l_payment_amount),
+                        # 'balance': -(line.l_local_amount) if payment.check_multi_currency else -(line.l_payment_amount),
+                        'date': payment.payment_date,
+                        'date_maturity': payment.payment_date,
+                        'account_id': line.account_id.id,
+                        'account_internal_type': l_account_internal_type,
+                        # 'parent_state': 'posted',
+                        'ref': l_move_name,
+                        'journal_id': payment.journal_id.id,
+                        'company_id': payment.company_id.id,
+                        'partner_id': line.partner_id.id if line.partner_id else False,
+                        'quantity': 1,
+                        'custom_payment_line_id': line.id,
+
+                    })
+
+                    line_ids.append(credit_vals, )
+
+
+                # for line_inv in moves.line_ids:
+                #     print("line_inv",line_inv)
+                moves.write({'line_ids': [(5, )]})
+
+                moves.write({
+                    'date': payment.payment_date,
+                    'ref': 'PRCPT/ ' + str(payment.payment_seq),
+                    # 'state': 'posted',
+                    'type': 'entry',
+                    'journal_id': payment.journal_id.id,
+                    'company_id': payment.company_id.id,
+                    'currency_id': payment.currency_id.id,
+                    # 'amount_total': payment.payment_amount, #if payment.check_multi_currency and (payment.company_id.currency_id.id != line.currency_id.id) else payment.local_amount,
+                    # 'amount_total_signed': payment.local_amount, #if payment.check_multi_currency and (payment.company_id.currency_id.id != line.currency_id.id) else payment.local_amount,
+                    'invoice_user_id': payment.user_id.id,
+                    'custom_payment_id': payment.id,
+                    'line_ids': line_ids
+                    })
+
+                print(mov_vals)
+
+            else:
+                if payment.payment_type == 'issue':
+                    l_move_name = 'PISSUE/ ' + str(self.payment_seq)
+                    l_account_internal_type = self.env['account.account'].search(
+                        [('id', '=', payment.journal_id.default_debit_account_id.id)]).internal_type
+                    line_ids = []
+                    credit_vals = (0, 0, {
+                        'name': payment.desc,
+                        'amount_currency': -(payment.payment_amount) if payment.check_multi_currency and (
+                                payment.company_id.currency_id.id != payment.currency_id.id) else -0.0,
+                        'currency_id': payment.currency_id.id if payment.check_multi_currency and (
+                                payment.company_id.currency_id.id != payment.currency_id.id) else 0.0,
+                        'company_currency_id': payment.company_id.currency_id.id,
+                        'credit': (payment.local_amount) if payment.check_multi_currency else (payment.payment_amount),
+                        'debit': 0,
+                        # 'balance': payment.local_amount if payment.check_multi_currency else payment.payment_amount,
+                        'date': payment.payment_date,
+                        'date_maturity': payment.payment_date,
+                        'account_id': payment.journal_id.default_credit_account_id.id,
+                        'account_internal_type': l_account_internal_type,
+                        # 'parent_state': 'posted',
+                        'ref': l_move_name,
+                        'journal_id': payment.journal_id.id,
+                        'company_id': payment.company_id.id,
+                        'quantity': 1,
+                        'custom_payment_line_id': payment.id,
+
+                    })
+                    line_ids.append(credit_vals)
+                    for line in payment.paymt_lines:
+                        l_account_internal_type = self.env['account.account'].search(
+                            [('id', '=', line.account_id.id)]).internal_type
+
+                        debit_vals = (0, 0, {
+                            'name': line.desc,
+                            'amount_currency': (line.l_payment_amount) if payment.check_multi_currency and (
+                                    payment.company_id.currency_id.id != line.currency_id.id) else 0.0,
+                            'currency_id': line.currency_id.id if payment.check_multi_currency and (
+                                    payment.company_id.currency_id.id != line.currency_id.id) else 0.0,
+                            'company_currency_id': payment.company_id.currency_id.id,
+                            'debit': (line.l_local_amount) if payment.check_multi_currency else (line.l_payment_amount),
+                            'credit': 0.0,
+                            # 'balance': -(line.l_local_amount) if payment.check_multi_currency else -(line.l_payment_amount),
+                            'date': payment.payment_date,
+                            'date_maturity': payment.payment_date,
+                            'account_id': line.account_id.id,
+                            'account_internal_type': l_account_internal_type,
+                            # 'parent_state': 'posted',
+                            'ref': l_move_name,
+                            'journal_id': payment.journal_id.id,
+                            'company_id': payment.company_id.id,
+                            'partner_id': line.partner_id.id if line.partner_id else False,
+                            'quantity': 1,
+                            'custom_payment_line_id': line.id,
+
+                        })
+
+                        line_ids.append(debit_vals, )
+
+                    for line_inv in moves.line_ids:
+                        moves.write({'line_ids': [(2, line_inv.id)]})
+
+                    moves.write({
+                        'date': payment.payment_date,
+                        'ref': 'PISSUE/ ' + str(payment.payment_seq),
+                        # 'state': "posted" if payment.check_auto_posted else "Draft",
+                        'type': 'entry',
+                        'journal_id': payment.journal_id.id,
+                        'company_id': payment.company_id.id,
+                        'currency_id': payment.currency_id.id,
+                        # 'amount_total': payment.payment_amount, #if payment.check_multi_currency and (payment.company_id.currency_id.id != line.currency_id.id) else payment.local_amount,
+                        # 'amount_total_signed': payment.local_amount, #if payment.check_multi_currency and (payment.company_id.currency_id.id != line.currency_id.id) else payment.local_amount,
+                        'invoice_user_id': payment.user_id.id,
+                        'custom_payment_id': payment.id,
+                        'line_ids': line_ids
+                        })
+
+                    print(mov_vals)
+
+        return mov_vals
+
+
     def custom_post(self):
         for rec in self:
             moves =''
@@ -323,7 +488,12 @@ class custom_payment(models.Model):
             #     moves.write({'line_ids': move_lines['line_ids']})
 
             else:
-                moves = self.env['account.move'].create(rec._prepare_payment_moves())
+                moves = self.env['account.move'].search([('custom_payment_id', '=', self.id)])
+                if moves:
+                    rec._update_payment_moves(moves)
+
+                else:
+                    moves = self.env['account.move'].create(rec._prepare_payment_moves())
 
             if self.check_auto_posted:
                 moves.action_post()
@@ -343,7 +513,7 @@ class custom_payment(models.Model):
                 if moves.state =='posted':
                     raise ValidationError("لا يمكن الالغاء بسبب تم ترحل السند من الحسابات مسبقا")
 
-                else:
+                elif moves.name == '/' or moves.name is None or moves.name == False or moves.name == '':
                     moves.unlink()
 
                 self.write({'payment_state': 'draft'})
