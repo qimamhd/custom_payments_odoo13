@@ -85,6 +85,7 @@ th, td {
 									<th style="width: 20%">رقم الحساب</th>
 									<th class="text-center" style="width: 20%">الحساب</th>
 									<th class="text-center" style="width: 20%">البيان</th>
+									<th class="text-center" style="width: 20%">الشريك</th>
 									<th class="text-center" style="width: 10%">مبلغ السند</th>
 									<th class="text-center" style="width: 10%">العملة</th>
 
@@ -96,6 +97,7 @@ th, td {
 											<td><span t-esc="line.account_id.code"/></td>
 											<td><span t-esc="line.account_id.name"/></td>
 											<td><span t-esc="line.desc"/></td>
+											<td><span t-esc="line.partner_id"/></td>
 											<td><span t-esc="line.l_payment_amount" t-options="{'widget': 'monetary', 'display_currency': line.currency_id}"/></td>
 											<td><span t-esc="line.currency_id.name"/></td>
 										</tr>
