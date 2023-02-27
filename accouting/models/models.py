@@ -72,6 +72,7 @@ class custom_payment(models.Model):
     total_cr = fields.Float(string="Total Credit", readonly=True, compute='_calc_local_amount')
     account_move_seq = fields.Char()
     check_auto_posted = fields.Boolean(compute="_default_auto_posted_policy")
+    sales_man_id = fields.Many2one('custom.sales.mans', string='مندوب المبيعات')
 
     def _default_auto_posted_policy(self):
         """ Check custom sequence """
