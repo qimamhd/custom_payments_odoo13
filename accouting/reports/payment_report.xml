@@ -1,67 +1,75 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <odoo>
 	<template id="payment_report_view">
-		<t t-if="docs and 'company_id' in docs">
+		 <t t-if="docs and 'company_id' in docs">
                 <t t-set="company" t-value="docs.company_id"/>
             </t>
             <t t-if="not docs or not 'company_id' in docs">
                 <t t-set="company" t-value="res_company"/>
             </t>
-<!--            <div class="header">-->
-<!--                <div class="row mt32 mb32">-->
-<!--                    <div class="col-6">-->
-<!--						<t t-if="not docs.branch_id.no_header_report_account">-->
-<!--							<t t-if="docs.branch_id.branch_header">-->
-<!--								<img t-if="docs.branch_id" t-att-src="'data:image/png;base64,%s' % to_text(docs.branch_id.branch_header)" style="max-height: 200px;"/>-->
-<!--							</t>-->
-<!--							<t t-else="">-->
-<!--								<t t-if="company.header_image">-->
-<!--								-->
-<!--									<img t-if="company.header_image" t-att-src="'data:image/png;base64,%s' % to_text(company.header_image)" style="max-height: 200px;"/>-->
-<!--								</t>-->
-<!--								<t t-else="">-->
-<!--									<img t-if="company.logo" t-att-src="'data:image/png;base64,%s' % to_text(company.logo)" style="max-height: 80px;"/>-->
-<!--									 <div>-->
-<!--										<span t-field="company.partner_id"/>-->
-<!--										<br/>-->
-<!--										<span t-field="company.partner_id.street"/>-->
-<!--										<br/>-->
-<!--										<span t-field="company.partner_id.street2"/>-->
-<!--										<br/>-->
-<!--										<span t-field="company.partner_id.city"/>-->
-<!--										<br/>-->
-<!--										<span t-field="company.partner_id.country_id"/>-->
-<!--										<br/>-->
-<!--										<span t-field="company.partner_id.vat"/>-->
-<!--										<br/>-->
-<!--									</div>-->
-<!--								</t>-->
-<!--							</t>-->
-<!--						</t>-->
-<!--                    </div>-->
-<!--                </div>-->
-<!--            </div>-->
-<!--            <div class="footer">-->
-<!--                <div class="row mt32 mb32">-->
-<!--                    <div class="col-6">-->
-<!--						<t t-if="not docs.branch_id.no_header_report_account">-->
-<!--							<t t-if="docs.branch_id.branch_footer">-->
-<!--								<img t-if="docs.branch_id" t-att-src="'data:image/png;base64,%s' % to_text(docs.branch_id.branch_footer)" style="max-height: 200px;"/>-->
-<!--							</t>-->
-<!--							<t t-else="">-->
-<!--								<t t-if="company.footer_image">-->
-<!--									<img t-if="company.footer_image" t-att-src="'data:image/png;base64,%s' % to_text(company.footer_image)" style="max-height: 200px;"/>-->
-<!--								</t>-->
-<!--							</t>-->
-<!--						</t>-->
-<!--                    </div>-->
-<!--                </div>-->
-<!--            </div>-->
-			
+            <div class="header">
+                <div class="row mt32 mb32">
+                    <div class="col-6">
+						<t t-if="not docs.branch_id.no_header_report_account">
+							<t t-if="docs.branch_id.branch_header">
+
+
+
+
+
+								<img t-if="docs.branch_id" t-att-src="'data:image/png;base64,%s' % to_text(docs.branch_id.branch_header)" style="max-height: 200px;"/>
+
+
+
+							</t>
+							<t t-else="">
+								<t t-if="company.header_image">
+
+									<img t-if="company.header_image" t-att-src="'data:image/png;base64,%s' % to_text(company.header_image)" style="max-height: 200px;"/>
+								</t>
+								<t t-else="">
+									<img t-if="company.logo" t-att-src="'data:image/png;base64,%s' % to_text(company.logo)" style="max-height: 80px;"/>
+									 <div>
+										<span t-field="company.partner_id"/>
+										<br/>
+										<span t-field="company.partner_id.street"/>
+										<br/>
+										<span t-field="company.partner_id.street2"/>
+										<br/>
+										<span t-field="company.partner_id.city"/>
+										<br/>
+										<span t-field="company.partner_id.country_id"/>
+										<br/>
+										<span t-field="company.partner_id.vat"/>
+										<br/>
+									</div>
+								</t>
+							</t>
+						</t>
+                    </div>
+                </div>
+            </div>
+            <div class="footer">
+                <div class="row mt32 mb32">
+                    <div class="col-6">
+						<t t-if="not docs.branch_id.no_header_report_account">
+							<t t-if="docs.branch_id.branch_footer">
+								<img t-if="docs.branch_id" t-att-src="'data:image/png;base64,%s' % to_text(docs.branch_id.branch_footer)" style="max-height: 200px;"/>
+							</t>
+							<t t-else="">
+								<t t-if="company.footer_image">
+									<img t-if="company.footer_image" t-att-src="'data:image/png;base64,%s' % to_text(company.footer_image)" style="max-height: 200px;"/>
+								</t>
+							</t>
+						</t>
+                    </div>
+                </div>
+            </div>
+
 			<t t-call="web.html_container">
 				<t t-call="web.external_layout">
 			<style>
-                        
+
                         table {
                           width:100%;
                           font-size: 13px;
@@ -71,7 +79,7 @@
                           border-collapse: collapse;
                           padding: 5px;
                           background-color:white;
-                          
+
                         }
                         th, td {
                           padding: 5px;
@@ -80,26 +88,26 @@
                         #rcorners1{
                               border-radius: 5px;
                               border: 0px solid gray;
-                              padding: 5px; 
+                              padding: 5px;
                               width: 200px;
                               text-align:center;
-                               margin: auto; 
+                               margin: auto;
                             }
                          #rcorners2{
                           border-radius: 5px;
                           border: 1px solid gray;
-                          padding: 5px; 
-                           margin: auto; 
+                          padding: 5px;
+                           margin: auto;
                         }
                         #t01 th {
                             background-color: LightGray;
-                            
+
                         }
 
              #rcorners3{
               border-radius: 5px;
               border: 1px solid gray;
-              padding: 5px; 
+              padding: 5px;
             }
             div { margin: auto; }
         </style>
@@ -118,7 +126,7 @@
 									 </t>
 							</div>
 
- 					<table style="border: 0px solid white;background-color:white">        
+ 					<table style="border: 0px solid white;background-color:white">
                         <tr style="border: 0px solid white;background-color:white">
                                 <td style="border: 0px solid white;background-color:white">
                                     <p id="rcorners2">
@@ -137,7 +145,7 @@
                                     <span t-esc="docs.payment_seq"/>
                                      </p>
                                 </td>
-                                
+
                         </tr>
 	                     <tr style="border: 0px solid white;background-color:white">
 	                                <td style="border: 0px solid white;background-color:white">
@@ -172,23 +180,25 @@
 											 </t>
 	                                      </p>
 	                                </td>
-	                                
+
 	                        </tr>
                     </table>
 
 							<br/>
 							<table id="t01">
 								<thread>
-									<th style="width: 10%"> <strong> رقم الحساب</strong></th> 
-									<th class="text-center" style="width: 30%"><strong>الحساب</strong></th>
-									<th class="text-center" style="width: 50%"><strong>البيان</strong></th>
-									<th class="text-center" style="width: 10%"><strong>مبلغ السند</strong></th>
+									<th style="width: 10%"> <strong> رقم الحساب</strong></th>
+									<th class="text-center" style="width: 10%"><strong>الحساب</strong></th>
+									<th class="text-center" style="width: 35%"><strong>الشريك   </strong></th>
+									<th class="text-center" style="width: 30%"><strong>البيان</strong></th>
+									<th class="text-center" style="width: 15%"><strong>مبلغ السند</strong></th>
 								</thread>
 								<tbody>
 									<t t-foreach="docs.paymt_lines" t-as="line">
 										<tr>
 											<td><span t-esc="line.account_id.code"/></td>
 											<td><span t-esc="line.account_id.name"/></td>
+                      <td><span t-esc="line.partner_id.name"/></td>
 											<td><span t-esc="line.desc"/></td>
 											<td><span t-esc="line.l_payment_amount" t-options="{'widget': 'monetary', 'display_currency': line.currency_id}"/></td>
 											<!--<td><span t-esc="line.currency_id.name"/></td>-->
@@ -196,13 +206,13 @@
 									</t>
 								</tbody>
 							</table>
-							
+
 								<br/>
 							<br/>
 							<br/>
 							<br/>
-							
-		
+
+
 							<table style="border: 0px solid white;background-color:white;width:100%;text-align:center">
 								<tr style="border: 0px solid white;background-color:white;">
 									<td style="border: 0px solid white;background-color:white"> المستلم</td>
@@ -219,7 +229,6 @@
 					</t>
 				</t>
 				</t>
-			
 	</template>
 
 
