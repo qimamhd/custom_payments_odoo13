@@ -73,6 +73,8 @@ class custom_payment(models.Model):
     account_move_seq = fields.Char()
     check_auto_posted = fields.Boolean(compute="_default_auto_posted_policy")
     sales_man_id = fields.Many2one('custom.sales.mans', string='مندوب المبيعات')
+    branch_id = fields.Many2one('custom.branches', string='الفرع', copy=False, readonly="True", required=True,
+                                default=lambda self: self.env.user.branch_id.id)
 
     def _default_auto_posted_policy(self):
         """ Check custom sequence """
