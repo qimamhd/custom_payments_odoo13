@@ -177,7 +177,7 @@
                 </p>
             </field>
         </record>
-        <menuitem id="payments_menu" name="السندات" parent="qimamhd_account_forms.account_expenses_custom_menu" sequence="5"/>
+        <menuitem id="payments_menu" name="السندات" parent="qimamhd_account_forms.account_expenses_custom_menu" sequence="100"/>
         <menuitem id="receipt_payments_menu" name="سندات القبض" parent="payments_menu"
                   action="action_receipt_pays_view" groups="group_show_receipt_pym_users"/>
 
