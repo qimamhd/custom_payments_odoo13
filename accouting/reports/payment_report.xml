@@ -1,70 +1,62 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <odoo>
 	<template id="payment_report_view">
-					            <t t-if="docs and 'company_id' in docs">
+		<t t-if="docs and 'company_id' in docs">
                 <t t-set="company" t-value="docs.company_id"/>
             </t>
             <t t-if="not docs or not 'company_id' in docs">
                 <t t-set="company" t-value="res_company"/>
             </t>
-            <div class="header">
-                <div class="row mt32 mb32">
-                    <div class="col-6">
-						<t t-if="not docs.branch_id.no_header_report_account">
-							<t t-if="docs.branch_id.branch_header">
-							
-						
-
-
-
-								<img t-if="docs.branch_id" t-att-src="'data:image/png;base64,%s' % to_text(docs.branch_id.branch_header)" style="max-height: 200px;"/>
-								
-								
-
-							</t>
-							<t t-else="">
-								<t t-if="company.header_image">
-								
-									<img t-if="company.header_image" t-att-src="'data:image/png;base64,%s' % to_text(company.header_image)" style="max-height: 200px;"/>
-								</t>
-								<t t-else="">
-									<img t-if="company.logo" t-att-src="'data:image/png;base64,%s' % to_text(company.logo)" style="max-height: 80px;"/>
-									 <div>
-										<span t-field="company.partner_id"/>
-										<br/>
-										<span t-field="company.partner_id.street"/>
-										<br/>
-										<span t-field="company.partner_id.street2"/>
-										<br/>
-										<span t-field="company.partner_id.city"/>
-										<br/>
-										<span t-field="company.partner_id.country_id"/>
-										<br/>
-										<span t-field="company.partner_id.vat"/>
-										<br/>
-									</div>
-								</t>
-							</t>
-						</t>
-                    </div>
-                </div>
-            </div>
-            <div class="footer">
-                <div class="row mt32 mb32">
-                    <div class="col-6">
-						<t t-if="not docs.branch_id.no_header_report_account">
-							<t t-if="docs.branch_id.branch_footer">
-								<img t-if="docs.branch_id" t-att-src="'data:image/png;base64,%s' % to_text(docs.branch_id.branch_footer)" style="max-height: 200px;"/>
-							</t>
-							<t t-else="">
-								<t t-if="company.footer_image">
-									<img t-if="company.footer_image" t-att-src="'data:image/png;base64,%s' % to_text(company.footer_image)" style="max-height: 200px;"/>
-								</t>
-							</t>
-						</t>
-                    </div>
-                </div>
-            </div>
+<!--            <div class="header">-->
+<!--                <div class="row mt32 mb32">-->
+<!--                    <div class="col-6">-->
+<!--						<t t-if="not docs.branch_id.no_header_report_account">-->
+<!--							<t t-if="docs.branch_id.branch_header">-->
+<!--								<img t-if="docs.branch_id" t-att-src="'data:image/png;base64,%s' % to_text(docs.branch_id.branch_header)" style="max-height: 200px;"/>-->
+<!--							</t>-->
+<!--							<t t-else="">-->
+<!--								<t t-if="company.header_image">-->
+<!--								-->
+<!--									<img t-if="company.header_image" t-att-src="'data:image/png;base64,%s' % to_text(company.header_image)" style="max-height: 200px;"/>-->
+<!--								</t>-->
+<!--								<t t-else="">-->
+<!--									<img t-if="company.logo" t-att-src="'data:image/png;base64,%s' % to_text(company.logo)" style="max-height: 80px;"/>-->
+<!--									 <div>-->
+<!--										<span t-field="company.partner_id"/>-->
+<!--										<br/>-->
+<!--										<span t-field="company.partner_id.street"/>-->
+<!--										<br/>-->
+<!--										<span t-field="company.partner_id.street2"/>-->
+<!--										<br/>-->
+<!--										<span t-field="company.partner_id.city"/>-->
+<!--										<br/>-->
+<!--										<span t-field="company.partner_id.country_id"/>-->
+<!--										<br/>-->
+<!--										<span t-field="company.partner_id.vat"/>-->
+<!--										<br/>-->
+<!--									</div>-->
+<!--								</t>-->
+<!--							</t>-->
+<!--						</t>-->
+<!--                    </div>-->
+<!--                </div>-->
+<!--            </div>-->
+<!--            <div class="footer">-->
+<!--                <div class="row mt32 mb32">-->
+<!--                    <div class="col-6">-->
+<!--						<t t-if="not docs.branch_id.no_header_report_account">-->
+<!--							<t t-if="docs.branch_id.branch_footer">-->
+<!--								<img t-if="docs.branch_id" t-att-src="'data:image/png;base64,%s' % to_text(docs.branch_id.branch_footer)" style="max-height: 200px;"/>-->
+<!--							</t>-->
+<!--							<t t-else="">-->
+<!--								<t t-if="company.footer_image">-->
+<!--									<img t-if="company.footer_image" t-att-src="'data:image/png;base64,%s' % to_text(company.footer_image)" style="max-height: 200px;"/>-->
+<!--								</t>-->
+<!--							</t>-->
+<!--						</t>-->
+<!--                    </div>-->
+<!--                </div>-->
+<!--            </div>-->
 			
 			<t t-call="web.html_container">
 				<t t-call="web.external_layout">

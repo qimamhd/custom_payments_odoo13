@@ -151,7 +151,7 @@
                     <field name="payment_amount"  string="مبلغ السند"/>
                     <field name="desc"  string="تفاصيل السند"/>
                     <field name="payment_state"  string="حالة السند"/>
-
+                    <field name="sales_man_id"/>
                 </search>
             </field>
         </record>
