@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <data>
+<!--         custom payment-->
+        <!--        payment-->
+         <record id="custom_payment_branch_view" model="ir.ui.view">
+                <field name="name">custom.payment.Branches</field>
+                <field name="model">custom.account.payment</field>
+                <field name="inherit_id" ref="custom_payments_odoo13.custom_payment_view" />
+                <field name="arch" type="xml">
+                   <field name="company_id" position="after">
+
+                         <field name="branch_id" options="{'no_quick_create':True,'no_create_edit':True,'no_open': True,'no_create': True}" />
+
+                    </field>
+                </field>
+	    </record>
+         <record id="custom_payment_issue_branch_tree" model="ir.ui.view">
+                    <field name="name">custom.payment.tree.Branches</field>
+                    <field name="model">custom.account.payment</field>
+                    <field name="inherit_id" ref="custom_payments_odoo13.issue_payments_tree_view" />
+                    <field name="arch" type="xml">
+                        <field name="journal_id" position="after">
+
+                         <field name="branch_id" options="{'no_quick_create':True,'no_create_edit':True,'no_open': True,'no_create': True}" />
+                         </field>
+                    </field>
+         </record>
+          <record id="custom_receipt_payment_branch_tree" model="ir.ui.view">
+                    <field name="name">custom.payment.tree.Branches</field>
+                    <field name="model">custom.account.payment</field>
+                    <field name="inherit_id" ref="custom_payments_odoo13.receipt_payments_tree_view" />
+                    <field name="arch" type="xml">
+                        <field name="journal_id" position="after">
+
+                         <field name="branch_id" options="{'no_quick_create':True,'no_create_edit':True,'no_open': True,'no_create': True}" />
+                         </field>
+                    </field>
+         </record>
+         <record id="custom_account_payment_branch_search" model="ir.ui.view">
+                    <field name="name">custom.account.payment.search.Branches</field>
+                    <field name="model">custom.account.payment</field>
+                    <field name="inherit_id" ref="custom_payments_odoo13.custom_payment_search" />
+                    <field name="arch" type="xml">
+
+                        <xpath expr="//search" position="inside">
+                         <field name="branch_id" options="{'no_quick_create':True,'no_create_edit':True,'no_open': True,'no_create': True}" />
+                               <filter name="branch_id" string="Branch" context="{'group_by':'branch_id'}"/>
+
+
+                        </xpath>
+
+                    </field>
+         </record>
+
+
+    </data>
+</odoo>

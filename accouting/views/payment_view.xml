@@ -34,7 +34,7 @@
                                     <field name="applied_by" string="طلب بواسطة " attrs="{'readonly':[('payment_state','=','posted')]}"/>
                                     <field name="pay_type" string="طريقة الدفع" attrs="{'readonly':[('payment_state','=','posted')]}"/>
                                     <field name="cost_cnr_id" string="مركز التكلفة" attrs="{'readonly':[('payment_state','=','posted')]}"/>
-<!--                                    <field name="sales_man_id" options="{'no_quick_create':True,'no_create_edit':True,'no_open': True,'no_create': True}" string="مندوب المبيعات" attrs="{'invisible':[('payment_type','=','issue')],'readonly':[('payment_state','=','posted')]}"/>-->
+                                    <field name="sales_man_id" options="{'no_quick_create':True,'no_create_edit':True,'no_open': True,'no_create': True}" string="مندوب المبيعات" attrs="{'invisible':[('payment_type','=','issue')],'readonly':[('payment_state','=','posted')]}"/>
 
                                     <field name="check_multi_currency" invisible="1"/>
                                 </group>
@@ -151,7 +151,7 @@
                     <field name="payment_amount"  string="مبلغ السند"/>
                     <field name="desc"  string="تفاصيل السند"/>
                     <field name="payment_state"  string="حالة السند"/>
-<!--                    <field name="sales_man_id"/>-->
+                    <field name="sales_man_id"/>
                 </search>
             </field>
         </record>
