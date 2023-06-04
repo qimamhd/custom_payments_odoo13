@@ -20,6 +20,8 @@ class inheritaccount_move_line(models.Model):
 
 class custom_payment(models.Model):
     _name = 'custom.account.payment'
+    _inherit = ['mail.thread']
+
     _description = 'Accounting Payment'
     _rec_name = "payment_seq"
 
