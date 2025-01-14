@@ -22,6 +22,7 @@
     'data': [
         'accouting/security/ir.model.access.csv',
         'accouting/security/security.xml',
+        'accouting/views/account_journal.xml',
         'accouting/views/payment_view.xml',
         'accouting/views/res_config_setting.xml',
         # 'accouting/views/set_cst_cntr_required.xml',

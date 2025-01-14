@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <record id="multi_payment_journal_view" model="ir.ui.view">
+		<field name="name">account journal multi payment</field>
+		<field name="model">account.journal</field>
+		<field name="inherit_id" ref="account.view_account_journal_form" />
+		<field name="arch" type="xml">
+					<notebook>
+						<page string="اعدادات سندات الصرف والقبض">
+							<group>
+									 
+									 <field name="multi_payment_journal_id"   />
+  
+							</group>
+						</page>
+					</notebook>
+                
+
+		</field>
+	</record>
+
+</odoo>
