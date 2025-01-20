@@ -614,7 +614,15 @@ class custom_payment(models.Model):
             if check_account:
                 raise ValidationError(
                     "تنبيه: عند استخدام حسابات اللشركاء يجب تحديد الشريك لذا لا يمكن الاستمرار")
-
+   
+    def call_entry(self):
+        for rec in self:
+            action = self.env.ref('account.action_move_journal_line')
+            result = action.read()[0]
+            result.pop('id', None)
+            result['context'] = {}
+            result['domain'] = [('custom_payment_id', '=', rec.id), ('type', '=', 'entry')]
+            return result
 
 class custom_payment_line(models.Model):
     _name = 'custom.account.payment.line'

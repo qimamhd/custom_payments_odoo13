@@ -7,7 +7,7 @@
             <field name="arch" type="xml">
                 <form>
                     <header>
-                       <button name="action_draft" string="الغاء الاعتماد وحذف القيود" type="object" class="oe_highlight" groups="custom_payments_odoo13.group_delete_pym_users"
+                         <button name="action_draft" string="الغاء الاعتماد وحذف القيود" type="object" class="oe_highlight" groups="custom_payments_odoo13.group_delete_pym_users"
                                     attrs="{'invisible':[('payment_state','=','draft')]}" />
 
                          <button name="custom_post" string="اعتماد وانشاء القيود " type="object" class="oe_highlight" groups="account.group_account_user"
@@ -16,6 +16,16 @@
 
                     </header>
                      <sheet>
+                          <div class="oe_button_box" name="button_box">
+                                <button type="object"
+                                       name="call_entry"
+                                       class="oe_stat_button"
+                                        string="القيود" 
+                                       icon="fa-arrow-right" >
+                                </button>
+   
+   
+                            </div>
                           <h1>
                               <strong><field name="payment_type" readonly="1"></field></strong>
 <!--                              <t t-if="payment_type == 'receipt'">-->
