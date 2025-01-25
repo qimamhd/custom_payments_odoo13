@@ -515,11 +515,14 @@ class custom_payment(models.Model):
         if check_moves_aval:
             moves = self.env['account.move'].search([('custom_payment_id', '=', self.id)])
             if moves:
+                moves.buttn_draft()
                 if moves.state =='posted':
                     raise ValidationError("لا يمكن الالغاء بسبب تم ترحل السند من الحسابات مسبقا")
 
                 elif moves.name == '/' or moves.name is None or moves.name == False or moves.name == '':
                     moves.unlink()
+                else:
+                    moves.line_ids.unlink()
 
                 self.write({'payment_state': 'draft'})
             else:
