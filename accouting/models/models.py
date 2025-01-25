@@ -77,6 +77,11 @@ class custom_payment(models.Model):
     sales_man_id = fields.Many2one('custom.sales.mans', string='مندوب المبيعات')
     branch_id = fields.Many2one('custom.branches', string='الفرع', copy=False, readonly="True", required=True,
                                 default=lambda self: self.env.user.branch_id.id)
+    
+    _sql_constraints = [
+        ('payment_seq_uniq', 'unique(payment_seq,payment_type)',
+         'تنبيه.. رقم السند مكرر لنفس النوع'),
+    ]
 
     def _default_auto_posted_policy(self):
         """ Check custom sequence """
