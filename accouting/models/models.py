@@ -682,7 +682,7 @@ class custom_payment_line(models.Model):
                                     rec.write({'tax_id': tax.id})
                                     rec.calc_local_amount()
                         else:
-                            amount_tax =  rec.l_payment_amount * (tax.amount/100)
+                            amount_tax =  rec.l_payment_amount * (rec.tax_id.amount/100)
                             rec.tax_line_id.write({'l_payment_amount': amount_tax})
                             rec.calc_local_amount()
                     else:
