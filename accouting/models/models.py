@@ -667,7 +667,7 @@ class custom_payment_line(models.Model):
                             if tax:
                                 amount_tax =  rec.l_payment_amount * (tax.amount/100)
                                 tax_name =   (tax.name)
-                                tax_account_id = tax.invoice_repartition_line_ids.filtered(lambda x: x.repartition_type == 'tax')[:1].mapped('account_id.id')
+                                tax_account_id = tax.invoice_repartition_line_ids.filtered(lambda x: x.repartition_type == 'tax')[:1].account_id.id
                                 if tax_account_id:
                                     line = self.env['custom.account.payment.line'].create({
                                         'account_id':tax_account_id,
