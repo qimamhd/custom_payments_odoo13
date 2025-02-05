@@ -676,6 +676,7 @@ class custom_payment_line(models.Model):
                                         'currency_id':rec.pymt_id.currency_id.id,
                                         'curr_rate':rec.pymt_id.curr_rate,
                                         'pymt_id': rec.pymt_id.id,
+                                        'l_local_amount': rec.pymt_id.curr_rate * amount_tax,
 
                                         })
                                     rec.write({'tax_line_id': line.id})
@@ -684,6 +685,7 @@ class custom_payment_line(models.Model):
                         else:
                             amount_tax =  rec.l_payment_amount * (rec.tax_id.amount/100)
                             rec.tax_line_id.write({'l_payment_amount': amount_tax})
+                              rec.tax_line_id.write({'l_local_amount':  rec.pymt_id.curr_rate * amount_tax})
                             rec.calc_local_amount()
                     else:
                         rec.tax_line_id.unlink()
