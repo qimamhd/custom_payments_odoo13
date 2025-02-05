@@ -581,7 +581,10 @@ class custom_payment(models.Model):
         #
         #
         # self.total_cr = sum(l.l_local_amount for l in self.paymt_lines)
+        print("self.total_cr",self.total_cr)
+        print("self.total_dr",self.total_dr)
 
+        
         if (self.total_cr != self.total_dr) or ((self.total_cr == 0) or (self.total_dr == 0)):
             raise ValidationError("لا يمكن الحفظ الارصدة غير متزنة")
 

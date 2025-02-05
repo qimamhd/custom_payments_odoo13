@@ -100,10 +100,10 @@
                                      <group string="الارصدة بالعملة المحلية للمؤسسة">
                                          <br></br>
                                          <group  class="text-left">
-                                             <field name="total_dr"  string="اجمالي المدين"></field>
+                                             <field name="total_dr" force_save="1" string="اجمالي المدين"></field>
                                          </group>
                                          <group  class="text-right">
-                                             <field name="total_cr"  string="اجمالي الدائن"></field>
+                                             <field name="total_cr" force_save="1" string="اجمالي الدائن"></field>
                                          </group>
                                      </group>
 
