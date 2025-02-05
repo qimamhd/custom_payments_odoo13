@@ -661,6 +661,7 @@ class custom_payment_line(models.Model):
         for rec in self:
             if rec.account_id:
                 if rec.account_id.tax_ids:
+                    print("rec.account_id.tax_ids-------------",rec.account_id.tax_ids)
                     if rec.l_payment_amount:
                         if not rec.tax_line_id:
                             tax = self.env['account.tax'].search([('id','in',rec.account_id.tax_ids.ids)],limit=1)
