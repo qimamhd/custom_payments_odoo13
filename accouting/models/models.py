@@ -584,8 +584,8 @@ class custom_payment(models.Model):
         print("self.total_cr",self.total_cr)
         print("self.total_dr",self.total_dr)
 
-        
-        if (self.total_cr != self.total_dr) or ((self.total_cr == 0) or (self.total_dr == 0)):
+
+        if (round(self.total_cr,2) != round(self.total_dr,2)) or ((round(self.total_cr,2) == 0) or (round(self.total_dr,2) == 0)):
             raise ValidationError("لا يمكن الحفظ الارصدة غير متزنة")
 
         if not self.check_multi_currency and (self.payment_amount != self.local_amount):
