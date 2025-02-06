@@ -573,7 +573,7 @@ class custom_payment(models.Model):
                             self.payment_seq, x))
 
         if not self.paymt_lines:
-            raise ValidationError(" او سند الصرفلا يمكن الحفظ يجب ادخال حسابات سند القبض  ")
+            raise ValidationError("لا يمكن الحفظ يجب ادخال حسابات سند القبض")
         # #
         # for i in self:
         #     i.total_dr = i.payment_amount * i.curr_rate
@@ -673,18 +673,17 @@ class custom_payment_line(models.Model):
                                 print("tax-------------",tax_account_id)
 
                                 if tax_account_id:
-                                   
-                                    rec.pymt_id.new({'paymt_lines': [
-                                            (0, 0, {
-                                                'account_id':tax_account_id,
-                                                'desc': tax_name,
-                                                'l_payment_amount':amount_tax,
-                                                'currency_id':rec.pymt_id.currency_id.id,
-                                                'curr_rate':rec.pymt_id.curr_rate,
-                                                
-                                                'l_local_amount': rec.pymt_id.curr_rate * amount_tax,
+                                    
+                                    rec.pymt_id.write({
+                                        'account_id':tax_account_id,
+                                        'desc': tax_name,
+                                        'l_payment_amount':amount_tax,
+                                        'currency_id':rec.pymt_id.currency_id.id,
+                                        'curr_rate':rec.line._origin.id.curr_rate,
+                                        
+                                        'l_local_amount': rec.pymt_id.curr_rate * amount_tax,
 
-                                                }), ] })
+                                        })
                                     rec.write({'tax_line_id': line.id})
                                     rec.write({'tax_id': tax.id})
                                     rec.calc_local_amount()
