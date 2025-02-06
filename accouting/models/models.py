@@ -654,16 +654,16 @@ class custom_payment(models.Model):
 
                                     if tax_account_id:
                                   
-                                        new_line = rec.paymt_lines.new([0,0,{
+                                        new_line = self.env['custom.account.payment.line'].new({
                                             'account_id':tax_account_id,
                                             'desc': tax_name,
                                             'l_payment_amount':amount_tax,
                                             'currency_id':rec.currency_id.id,
                                             'curr_rate':rec.curr_rate,
-                                            
+                                            'pymt_id': rec.id,
                                             'l_local_amount': rec.curr_rate * amount_tax,
 
-                                            }])
+                                            })
                                         line.write({'tax_line_id': new_line.id})
                                         line.write({'tax_id': tax.id})
                                         line.calc_local_amount()
@@ -673,7 +673,7 @@ class custom_payment(models.Model):
                                 line.tax_line_id.write({'l_local_amount':  rec.curr_rate * amount_tax})
                                 line.calc_local_amount()
                         else:
-                            line.tax_line_id.unlink()
+                            rec.tax_line_id.unlink()
 
 class custom_payment_line(models.Model):
     _name = 'custom.account.payment.line'
