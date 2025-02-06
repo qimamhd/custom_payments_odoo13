@@ -674,7 +674,7 @@ class custom_payment_line(models.Model):
 
                                 if tax_account_id:
                                    
-                                    rec.pymt_id.create({'paymt_lines': [
+                                    rec.pymt_id.new({'paymt_lines': [
                                             (0, 0, {
                                                 'account_id':tax_account_id,
                                                 'desc': tax_name,
