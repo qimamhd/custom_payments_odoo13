@@ -658,22 +658,22 @@ class custom_payment(models.Model):
                                             'account_id':tax_account_id,
                                             'desc': tax_name,
                                             'l_payment_amount':amount_tax,
-                                            'currency_id':rec.pymt_id.currency_id.id,
-                                            'curr_rate':rec._origin.id.curr_rate,
+                                            'currency_id':rec.currency_id.id,
+                                            'curr_rate':rec.curr_rate,
                                             
-                                            'l_local_amount': rec.pymt_id.curr_rate * amount_tax,
+                                            'l_local_amount': rec.curr_rate * amount_tax,
 
                                             }])
-                                        rec.write({'tax_line_id': new_line.id})
-                                        rec.write({'tax_id': tax.id})
-                                        rec.calc_local_amount()
+                                        line.write({'tax_line_id': new_line.id})
+                                        line.write({'tax_id': tax.id})
+                                        line.calc_local_amount()
                             else:
-                                amount_tax =  rec.l_payment_amount * (rec.tax_id.amount/100)
-                                rec.tax_line_id.write({'l_payment_amount': amount_tax})
-                                rec.tax_line_id.write({'l_local_amount':  rec.pymt_id.curr_rate * amount_tax})
-                                rec.calc_local_amount()
+                                amount_tax =  line.l_payment_amount * (line.tax_id.amount/100)
+                                line.tax_line_id.write({'l_payment_amount': amount_tax})
+                                line.tax_line_id.write({'l_local_amount':  rec.curr_rate * amount_tax})
+                                line.calc_local_amount()
                         else:
-                            rec.tax_line_id.unlink()
+                            line.tax_line_id.unlink()
 
 class custom_payment_line(models.Model):
     _name = 'custom.account.payment.line'
