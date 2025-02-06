@@ -680,7 +680,7 @@ class custom_payment_line(models.Model):
                                         'l_payment_amount':amount_tax,
                                         'currency_id':rec.currency_id.id,
                                         'curr_rate':rec.curr_rate,
-                                        
+                                        'pymt_id': rec.pymt_id._origin.id,
                                         'l_local_amount': rec.pymt_id.curr_rate * amount_tax,
 
                                         }
