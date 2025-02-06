@@ -685,7 +685,7 @@ class custom_payment_line(models.Model):
 
                                         }
                                   
-                                    rec.pymt_id.write({'paymt_lines': [0,0,new_account]})
+                                    rec.pymt_id.write({'paymt_lines': [(0,0,new_account)]})
                                     rec.write({'tax_line_id': line.id})
                                     rec.write({'tax_id': tax.id})
                                     rec.calc_local_amount()
