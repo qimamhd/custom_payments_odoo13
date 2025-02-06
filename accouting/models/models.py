@@ -573,7 +573,7 @@ class custom_payment(models.Model):
                             self.payment_seq, x))
 
         if not self.paymt_lines:
-            raise ValidationError("لا يمكن الحفظ يجب ادخال حسابات سند القبض")
+            raise ValidationError(" او سند الصرفلا يمكن الحفظ يجب ادخال حسابات سند القبض  ")
         # #
         # for i in self:
         #     i.total_dr = i.payment_amount * i.curr_rate
@@ -674,7 +674,7 @@ class custom_payment_line(models.Model):
 
                                 if tax_account_id:
                                    
-                                    rec.pymt_id.write({'paymt_lines': [
+                                    rec.pymt_id.create({'paymt_lines': [
                                             (0, 0, {
                                                 'account_id':tax_account_id,
                                                 'desc': tax_name,
