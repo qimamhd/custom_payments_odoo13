@@ -697,14 +697,6 @@ class custom_payment_line(models.Model):
     #                 else:
     #                     rec.tax_line_id.unlink()
 
-
-                                
- 
-
-
-
-
-
     @api.onchange('account_id')
     def get_partner(self):
         if self.account_id:
