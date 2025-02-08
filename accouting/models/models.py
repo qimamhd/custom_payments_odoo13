@@ -725,7 +725,7 @@ class custom_payment_line(models.Model):
                                         'l_local_amount': rec.pymt_id.curr_rate * amount_tax }
                                 
                                     new_line = rec.pymt_id.new({'paymt_lines': [(0,0, new_account)]})
-                                    print('new_line',new_line)
+                                    print('new_line',new_line._origin.id)
                                     # rec.write({'tax_line_id': line.id})
                                     rec.write({'tax_id': tax.id})
                                     rec.calc_local_amount()
