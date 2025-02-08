@@ -642,7 +642,7 @@ class custom_payment(models.Model):
             for line in rec.paymt_lines:
                 if line.account_id:
                     if line.account_id.tax_ids:
-                        print("rec.account_id.tax_ids-------------",rec.account_id.tax_ids)
+                        
                         if line.l_payment_amount:
                             
                             tax = self.env['account.tax'].search([('id','in',line.account_id.tax_ids.ids)],limit=1)
