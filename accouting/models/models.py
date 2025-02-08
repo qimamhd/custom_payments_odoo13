@@ -115,20 +115,30 @@ class custom_payment(models.Model):
             self.paymt_lines.curr_rate = self.curr_rate
             self.paymt_lines.currency_id = self.currency_id
 
-    @api.depends('curr_rate', 'payment_amount', 'paymt_lines.l_payment_amount', 'paymt_lines.l_local_amount')
+    @api.depends('curr_rate', 'paymt_lines.l_payment_amount', 'paymt_lines.l_local_amount')
     def _calc_local_amount(self):
         #  get payment sequence
         # self._get_default_name()
         # ************************************************************
         self.total_cr = 0
         # self.total_cr += sum(line.l_local_amount for line in self.paymt_lines)
-        for i in self:
-            i.local_amount = i.curr_rate * i.payment_amount
-            i.total_dr = i.local_amount
+        total_amount = 0
+        local_total_amount = 0
 
-        for l in self.paymt_lines:
-            l.l_local_amount = l.curr_rate * l.l_payment_amount
-            i.total_cr += l.l_local_amount
+        for i in self:
+           
+            for l in i.paymt_lines:
+
+                l.l_local_amount = l.curr_rate * l.l_payment_amount
+                local_total_amount +=l.l_local_amount 
+                total_amount += l.l_payment_amount 
+
+            i.payment_amount =total_amount
+            i.local_amount = i.curr_rate * i.payment_amount
+          
+            i.total_cr += i.local_amount 
+            i.total_dr += i.local_amount 
+            
 
     @api.model
     def _default_multi_currency_policy(self):
