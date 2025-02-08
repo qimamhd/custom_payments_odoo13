@@ -638,7 +638,7 @@ class custom_payment(models.Model):
     @api.onchange('paymt_lines')
     def calc_account_tax_amount(self):
         for rec in self:
-            rec.paymt_lines.filtered(lambda x: x.tax_line == True).unlink()
+            rec.update({'paymt_lines': [(3, line.id) for line in rec.paymt_lines.filtered(lambda x: x.tax_line)]})
             for line in rec.paymt_lines:
                 if line.account_id:
                     if line.account_id.tax_ids:
