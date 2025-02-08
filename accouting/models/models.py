@@ -669,7 +669,7 @@ class custom_payment(models.Model):
 
                                         }
                                 
-                                    new_line = rec.write({'paymt_lines': [(0, 0, new_account)]})
+                                    new_line = rec.new({'paymt_lines': [(0, 0, new_account)]})
                                     print("new_line+++++++++",new_line)
                                 
                                     line.calc_local_amount()
