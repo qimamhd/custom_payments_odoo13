@@ -649,42 +649,43 @@ class custom_payment(models.Model):
     @api.onchange('paymt_lines')
     def calc_account_tax_amount(self):
         for rec in self:
-            rec.update({'paymt_lines': [(3, line.id) for line in rec.paymt_lines.filtered(lambda x: x.tax_line)]})
-            for line in rec.paymt_lines:
-                if line.account_id:
-                    if line.account_id.tax_ids:
-                        
-                        if line.l_payment_amount:
+            if rec.paymt_lines:
+                rec.update({'paymt_lines': [(3, line.id) for line in rec.paymt_lines.filtered(lambda x: x.tax_line)]})
+                for line in rec.paymt_lines:
+                    if line.account_id:
+                        if line.account_id.tax_ids:
                             
-                            tax = self.env['account.tax'].search([('id','in',line.account_id.tax_ids.ids)],limit=1)
-                            print("tax-------------",tax)
-                            if tax:
-                                amount_tax =  line.l_payment_amount * (tax.amount/100)
-                                tax_name =   (tax.name)
-                                tax_account_id = tax.invoice_repartition_line_ids.filtered(lambda x: x.repartition_type == 'tax').account_id.id
-                                print("tax-------------",tax_account_id)
+                            if line.l_payment_amount:
+                                
+                                tax = self.env['account.tax'].search([('id','in',line.account_id.tax_ids.ids)],limit=1)
+                                print("tax-------------",tax)
+                                if tax:
+                                    amount_tax =  line.l_payment_amount * (tax.amount/100)
+                                    tax_name =   (tax.name)
+                                    tax_account_id = tax.invoice_repartition_line_ids.filtered(lambda x: x.repartition_type == 'tax').account_id.id
+                                    print("tax-------------",tax_account_id)
 
-                                if tax_account_id:
+                                    if tax_account_id:
+                                        
+                                        new_account={
+                                            'account_id':tax_account_id,
+                                            'desc': tax_name,
+                                            'l_payment_amount':amount_tax,
+                                            'currency_id':rec.currency_id.id,
+                                            'curr_rate':rec.curr_rate,
+                                            'pymt_id': rec.id,
+                                            'tax_line_id':line.id,
+                                                'tax_line':True,
+                                            # 'pymt_id': rec.pymt_id._origin.id,
+                                            'l_local_amount': rec.curr_rate * amount_tax,
+
+                                            }
                                     
-                                    new_account={
-                                        'account_id':tax_account_id,
-                                        'desc': tax_name,
-                                        'l_payment_amount':amount_tax,
-                                        'currency_id':rec.currency_id.id,
-                                        'curr_rate':rec.curr_rate,
-                                        'pymt_id': rec.id,
-                                        'tax_line_id':line.id,
-                                            'tax_line':True,
-                                        # 'pymt_id': rec.pymt_id._origin.id,
-                                        'l_local_amount': rec.curr_rate * amount_tax,
-
-                                        }
-                                
-                                    new_line = rec.new({'paymt_lines': [(0, 0, new_account)]})
-                                    print("new_line+++++++++",new_line._origin.id)
-                                
-                                    line.calc_local_amount()
-                           
+                                        new_line = rec.new({'paymt_lines': [(0, 0, new_account)]})
+                                        print("new_line+++++++++",new_line._origin.id)
+                                    
+                                        line.calc_local_amount()
+                            
 
 class custom_payment_line(models.Model):
     _name = 'custom.account.payment.line'
