@@ -136,8 +136,9 @@ class custom_payment(models.Model):
             i.payment_amount =total_amount
             i.local_amount = i.curr_rate * i.payment_amount
           
-            i.total_cr += i.local_amount 
-            i.total_dr += i.local_amount 
+            i.write({'total_cr':i.local_amount }) 
+            i.write({'total_dr':i.local_amount }) 
+            
             
 
     @api.model
