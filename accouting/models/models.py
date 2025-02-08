@@ -680,6 +680,7 @@ class custom_payment_line(models.Model):
     _description = 'Accounting Payment Line'
     account_id = fields.Many2one('account.account', string='Account', required=True)
     tax_line_id = fields.Many2one('custom.account.payment.line',)
+    tax_id = fields.Many2one('account.tax')
     tax_line = fields.Boolean(default=False)
     
     partner_id = fields.Many2one('res.partner')
