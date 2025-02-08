@@ -634,6 +634,48 @@ class custom_payment(models.Model):
             result['context'] = {}
             result['domain'] = [('custom_payment_id', '=', rec.id), ('type', '=', 'entry')]
             return result
+   
+ 
+    # def calc_account_tax_amount(self):
+    #     for rec in self:
+    #         for line in rec.paymt_lines:
+    #             if rec.account_id:
+    #                 if rec.account_id.tax_ids:
+    #                     print("rec.account_id.tax_ids-------------",rec.account_id.tax_ids)
+    #                     if rec.l_payment_amount:
+    #                         if not rec.tax_line_id:
+    #                             tax = self.env['account.tax'].search([('id','in',rec.account_id.tax_ids.ids)],limit=1)
+    #                             print("tax-------------",tax)
+    #                             if tax:
+    #                                 amount_tax =  rec.l_payment_amount * (tax.amount/100)
+    #                                 tax_name =   (tax.name)
+    #                                 tax_account_id = tax.invoice_repartition_line_ids.filtered(lambda x: x.repartition_type == 'tax').account_id.id
+    #                                 print("tax-------------",tax_account_id)
+
+    #                                 if tax_account_id:
+                                        
+    #                                     new_account={
+    #                                         'account_id':tax_account_id,
+    #                                         'desc': tax_name,
+    #                                         'l_payment_amount':amount_tax,
+    #                                         'currency_id':rec.currency_id.id,
+    #                                         'curr_rate':rec.curr_rate,
+    #                                         'pymt_id': rec.pymt_id._origin.id,
+    #                                         'l_local_amount': rec.pymt_id.curr_rate * amount_tax,
+
+    #                                         }
+                                    
+    #                                     rec.pymt_id.write({'paymt_lines': [(4,new_account)]})
+    #                                     rec.write({'tax_line_id': line.id})
+    #                                     rec.write({'tax_id': tax.id})
+    #                                     rec.calc_local_amount()
+    #                         else:
+    #                             amount_tax =  rec.l_payment_amount * (rec.tax_id.amount/100)
+    #                             rec.tax_line_id.write({'l_payment_amount': amount_tax})
+    #                             rec.tax_line_id.write({'l_local_amount':  rec.pymt_id.curr_rate * amount_tax})
+    #                             rec.calc_local_amount()
+    #                     else:
+    #                         rec.tax_line_id.unlink()
 
 class custom_payment_line(models.Model):
     _name = 'custom.account.payment.line'
@@ -656,46 +698,44 @@ class custom_payment_line(models.Model):
         self.currency_id = self.pymt_id.currency_id
         self.curr_rate = self.pymt_id.curr_rate
    
-    # @api.onchange('account_id','l_payment_amount')
-    # def calc_account_tax_amount(self):
-    #     for rec in self:
-    #         if rec.account_id:
-    #             if rec.account_id.tax_ids:
-    #                 print("rec.account_id.tax_ids-------------",rec.account_id.tax_ids)
-    #                 if rec.l_payment_amount:
-    #                     if not rec.tax_line_id:
-    #                         tax = self.env['account.tax'].search([('id','in',rec.account_id.tax_ids.ids)],limit=1)
-    #                         print("tax-------------",tax)
-    #                         if tax:
-    #                             amount_tax =  rec.l_payment_amount * (tax.amount/100)
-    #                             tax_name =   (tax.name)
-    #                             tax_account_id = tax.invoice_repartition_line_ids.filtered(lambda x: x.repartition_type == 'tax').account_id.id
-    #                             print("tax-------------",tax_account_id)
+    @api.onchange('l_payment_amount', 'account_id')
+    def calc_account_tax_amount(self):
+        for rec in self:
+            if rec.account_id:
+                if rec.account_id.tax_ids:
+                    print("rec.account_id.tax_ids-------------",rec.account_id.tax_ids)
+                    if rec.l_payment_amount:
+                        if not rec.tax_line_id:
+                            tax = self.env['account.tax'].search([('id','in',rec.account_id.tax_ids.ids)],limit=1)
+                            print("tax-------------",tax)
+                            if tax:
+                                amount_tax =  rec.l_payment_amount * (tax.amount/100)
+                                tax_name =   (tax.name)
+                                tax_account_id = tax.invoice_repartition_line_ids.filtered(lambda x: x.repartition_type == 'tax').account_id.id
+                                print("tax-------------",tax_account_id)
 
-    #                             if tax_account_id:
-                                     
-    #                                 new_account={
-    #                                     'account_id':tax_account_id,
-    #                                     'desc': tax_name,
-    #                                     'l_payment_amount':amount_tax,
-    #                                     'currency_id':rec.currency_id.id,
-    #                                     'curr_rate':rec.curr_rate,
-    #                                     'pymt_id': rec.pymt_id._origin.id,
-    #                                     'l_local_amount': rec.pymt_id.curr_rate * amount_tax,
-
-    #                                     }
-                                  
-    #                                 rec.pymt_id.write({'paymt_lines': [(4,new_account)]})
-    #                                 rec.write({'tax_line_id': line.id})
-    #                                 rec.write({'tax_id': tax.id})
-    #                                 rec.calc_local_amount()
-    #                     else:
-    #                         amount_tax =  rec.l_payment_amount * (rec.tax_id.amount/100)
-    #                         rec.tax_line_id.write({'l_payment_amount': amount_tax})
-    #                         rec.tax_line_id.write({'l_local_amount':  rec.pymt_id.curr_rate * amount_tax})
-    #                         rec.calc_local_amount()
-    #                 else:
-    #                     rec.tax_line_id.unlink()
+                                if tax_account_id:
+                                    
+                                    new_account={
+                                        'account_id':tax_account_id,
+                                        'desc': tax_name,
+                                        'l_payment_amount':amount_tax,
+                                        'currency_id':rec.currency_id.id,
+                                        'curr_rate':rec.curr_rate,
+                                        'pymt_id': rec.pymt_id._origin.id,
+                                        'l_local_amount': rec.pymt_id.curr_rate * amount_tax }
+                                
+                                    rec.pymt_id.write({'paymt_lines': [(0,0, new_account)]})
+                                    rec.write({'tax_line_id': line.id})
+                                    rec.write({'tax_id': tax.id})
+                                    rec.calc_local_amount()
+                        else:
+                            amount_tax =  rec.l_payment_amount * (rec.tax_id.amount/100)
+                            rec.tax_line_id.write({'l_payment_amount': amount_tax})
+                            rec.tax_line_id.write({'l_local_amount':  rec.pymt_id.curr_rate * amount_tax})
+                            rec.calc_local_amount()
+                    else:
+                        rec.tax_line_id.unlink()
 
     @api.onchange('account_id')
     def get_partner(self):
