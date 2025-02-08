@@ -492,6 +492,14 @@ class custom_payment(models.Model):
 
     def custom_post(self):
         for rec in self:
+            
+            if (round(rec.total_cr,2) != round(rec.total_dr,2)) or ((round(rec.total_cr,2) == 0) or (round(rec.total_dr,2) == 0)):
+                raise ValidationError("لا يمكن الحفظ الارصدة غير متزنة")
+
+            if not rec.check_multi_currency and (rec.payment_amount != rec.local_amount):
+                raise ValidationError(
+                    "لا يمكن الحفظ بسبب مبلغ السند لا يساوي مبلغ المعادل لعملة المؤسسة .. قد يكون السبب السند تم انشاءة في تعدد العملات..يجب حذفه وانشاءة من جديد ")
+
             moves =''
             if rec.payment_state != 'draft':
                 raise ValidationError("Only a draft payment can be posted.")
@@ -583,25 +591,15 @@ class custom_payment(models.Model):
                         "-------Exists ! Already Issue SEQ exists in this NUMBER : %s No. of duplicate %s" % (
                             self.payment_seq, x))
 
-        # if not self.paymt_lines:
-        #     raise ValidationError("لا يمكن الحفظ يجب ادخال حسابات سند القبض")
-        # #
-        # for i in self:
-        #     i.total_dr = i.payment_amount * i.curr_rate
-        #     i.local_amount = i.payment_amount * i.curr_rate
-        #
-        #
-        # self.total_cr = sum(l.l_local_amount for l in self.paymt_lines)
         print("self.total_cr",self.total_cr)
         print("self.total_dr",self.total_dr)
 
+        # if (round(self.total_cr,2) != round(self.total_dr,2)) or ((round(self.total_cr,2) == 0) or (round(self.total_dr,2) == 0)):
+        #     raise ValidationError("لا يمكن الحفظ الارصدة غير متزنة")
 
-        if (round(self.total_cr,2) != round(self.total_dr,2)) or ((round(self.total_cr,2) == 0) or (round(self.total_dr,2) == 0)):
-            raise ValidationError("لا يمكن الحفظ الارصدة غير متزنة")
-
-        if not self.check_multi_currency and (self.payment_amount != self.local_amount):
-            raise ValidationError(
-                "لا يمكن الحفظ بسبب مبلغ السند لا يساوي مبلغ المعادل لعملة المؤسسة .. قد يكون السبب السند تم انشاءة في تعدد العملات..يجب حذفه وانشاءة من جديد ")
+        # if not self.check_multi_currency and (self.payment_amount != self.local_amount):
+        #     raise ValidationError(
+        #         "لا يمكن الحفظ بسبب مبلغ السند لا يساوي مبلغ المعادل لعملة المؤسسة .. قد يكون السبب السند تم انشاءة في تعدد العملات..يجب حذفه وانشاءة من جديد ")
 
         if self.paymt_lines.partner_id.ids:
             # select = []
