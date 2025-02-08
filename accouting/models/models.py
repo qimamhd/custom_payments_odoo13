@@ -583,8 +583,8 @@ class custom_payment(models.Model):
                         "-------Exists ! Already Issue SEQ exists in this NUMBER : %s No. of duplicate %s" % (
                             self.payment_seq, x))
 
-        if not self.paymt_lines:
-            raise ValidationError("لا يمكن الحفظ يجب ادخال حسابات سند القبض")
+        # if not self.paymt_lines:
+        #     raise ValidationError("لا يمكن الحفظ يجب ادخال حسابات سند القبض")
         # #
         # for i in self:
         #     i.total_dr = i.payment_amount * i.curr_rate
