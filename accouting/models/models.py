@@ -644,7 +644,7 @@ class custom_payment(models.Model):
             result['domain'] = [('custom_payment_id', '=', rec.id), ('type', '=', 'entry')]
             return result
    
-    @api.onchange('paymt_lines.l_payment_amount')
+    @api.onchange('paymt_lines')
     def calc_account_tax_amount(self):
         for rec in self:
             print("tax-------------",tax)
@@ -802,3 +802,9 @@ class custom_payment_line(models.Model):
                                         ) x) a
                                         where a.p_ref=ref and a.p_account_id=account_id and debit=p_debit and credit=p_credit
                                         and partner_id is null""")
+    
+    
+    
+    def write(self, vals):
+        res = super(custom_payment_line, self).write(vals)
+        print('vals',vals)
