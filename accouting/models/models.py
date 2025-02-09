@@ -664,7 +664,7 @@ class custom_payment(models.Model):
                                     print("tax_account_id-------------",tax_account_id)
 
                                     if tax_account_id:
-                                        update_line = rec.paymt_lines.filtered(lambda x: x.tax_line and x.tax_line_id.id == line.id)
+                                        update_line = rec.paymt_lines.filtered(lambda x: x.tax_line and x.tax_line_id.id == line.account_id.id)
                                         if not update_line:
                                             new_account={
                                                 'account_id':tax_account_id,
@@ -673,7 +673,7 @@ class custom_payment(models.Model):
                                                 'currency_id':rec.currency_id.id,
                                                 'curr_rate':rec.curr_rate,
                                                 'pymt_id': rec.id,
-                                                'tax_line_id':line.id,
+                                                'tax_line_id':line.account_id.id,
                                                 'tax_line':True,
                                                 # 'pymt_id': rec.pymt_id._origin.id,
                                                 'l_local_amount': rec.curr_rate * amount_tax,
@@ -681,7 +681,7 @@ class custom_payment(models.Model):
                                                 }
                                         
                                             new_line = rec.new({'paymt_lines': [(0, 0, new_account)]})
-                                            print("new_line+++++++++",line._origin.id)
+                                             
                                         
                                             line.calc_local_amount()
                                         else:
@@ -691,23 +691,24 @@ class custom_payment(models.Model):
                                                 'currency_id':rec.currency_id.id,
                                                 'curr_rate':rec.curr_rate,
                                                 'pymt_id': rec.id,
-                                                'tax_line_id':line.id,
+                                                  'tax_line_id':line.account_id.id,
                                                     'tax_line':True,
                                                 # 'pymt_id': rec.pymt_id._origin.id,
                                                 'l_local_amount': rec.curr_rate * amount_tax, })
                                     else:
-                                        rec.update({'paymt_lines': [(3, line_s.id) for line_s in rec.paymt_lines.filtered(lambda x: x.tax_line and x.tax_line_id.id == line.id)]})
+                                        rec.update({'paymt_lines': [(3, line_s.id) for line_s in rec.paymt_lines.filtered(lambda x: x.tax_line and x.tax_line_id.id == line.account_id.id)]})
                                 else:   
-                                    rec.update({'paymt_lines': [(3, line_s.id) for line_s in rec.paymt_lines.filtered(lambda x: x.tax_line and x.tax_line_id.id == line.id)]})
+                                    rec.update({'paymt_lines': [(3, line_s.id) for line_s in rec.paymt_lines.filtered(lambda x: x.tax_line and x.tax_line_id.id == line.account_id.id)]})
                             else:
-                                rec.update({'paymt_lines': [(3, line_s.id) for line_s in rec.paymt_lines.filtered(lambda x: x.tax_line and x.tax_line_id.id == line.id)]})
+                                rec.update({'paymt_lines': [(3, line_s.id) for line_s in rec.paymt_lines.filtered(lambda x: x.tax_line and x.tax_line_id.id == line.account_id.id)]})
  
 
 class custom_payment_line(models.Model):
     _name = 'custom.account.payment.line'
     _description = 'Accounting Payment Line'
+    seq = fields.Integer()
     account_id = fields.Many2one('account.account', string='Account', required=True)
-    tax_line_id = fields.Many2one('custom.account.payment.line',)
+    tax_line_id = fields.Many2one('account.account',)
     tax_id = fields.Many2one('account.tax')
     tax_line = fields.Boolean(default=False)
     
