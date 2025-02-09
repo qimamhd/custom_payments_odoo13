@@ -664,7 +664,7 @@ class custom_payment(models.Model):
                                     print("tax-------------",tax_account_id)
 
                                     if tax_account_id:
-                                        update_line = rec.paymt_lines.filtered(lambda x: x.tax_line and line_s.tax_line_id.id == line.id)
+                                        update_line = rec.paymt_lines.filtered(lambda x: x.tax_line and x.tax_line_id.id == line.id)
                                         if not update_line:
                                             new_account={
                                                 'account_id':tax_account_id,
@@ -696,13 +696,13 @@ class custom_payment(models.Model):
                                                 # 'pymt_id': rec.pymt_id._origin.id,
                                                 'l_local_amount': rec.curr_rate * amount_tax, })
                                     else:
-                                         rec.update({'paymt_lines': [(3, line_s.id) for line_s in rec.paymt_lines.filtered(lambda x: x.tax_line and line_s.tax_line_id.id == line.id)]})
+                                         rec.update({'paymt_lines': [(3, line_s.id) for line_s in rec.paymt_lines.filtered(lambda x: x.tax_line and x.tax_line_id.id == line.id)]})
                                 else:   
-                                    rec.update({'paymt_lines': [(3, line_s.id) for line_s in rec.paymt_lines.filtered(lambda x: x.tax_line and line_s.tax_line_id.id == line.id)]})
+                                    rec.update({'paymt_lines': [(3, line_s.id) for line_s in rec.paymt_lines.filtered(lambda x: x.tax_line and x.tax_line_id.id == line.id)]})
 
 
                             else:
-                                rec.update({'paymt_lines': [(3, line_s.id) for line_s in rec.paymt_lines.filtered(lambda x: x.tax_line and line_s.tax_line_id.id == line.id)]})
+                                rec.update({'paymt_lines': [(3, line_s.id) for line_s in rec.paymt_lines.filtered(lambda x: x.tax_line and x.tax_line_id.id == line.id)]})
  
 
 class custom_payment_line(models.Model):
