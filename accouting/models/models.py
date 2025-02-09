@@ -685,7 +685,7 @@ class custom_payment(models.Model):
                                         
                                             line.calc_local_amount()
                                         else:
-                                            update_line..write({ 'account_id':tax_account_id,
+                                            update_line.write({ 'account_id':tax_account_id,
                                                 'desc': tax_name,
                                                 'l_payment_amount':amount_tax,
                                                 'currency_id':rec.currency_id.id,
