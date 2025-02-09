@@ -644,7 +644,7 @@ class custom_payment(models.Model):
             result['domain'] = [('custom_payment_id', '=', rec.id), ('type', '=', 'entry')]
             return result
    
-    @api.onchange('paymt_lines')
+    @api.onchange('paymt_lines.l_payment_amount')
     def calc_account_tax_amount(self):
         for rec in self:
             if rec.paymt_lines:
@@ -673,7 +673,7 @@ class custom_payment(models.Model):
                                                 'curr_rate':rec.curr_rate,
                                                 'pymt_id': rec.id,
                                                 'tax_line_id':line.id,
-                                                    'tax_line':True,
+                                                'tax_line':True,
                                                 # 'pymt_id': rec.pymt_id._origin.id,
                                                 'l_local_amount': rec.curr_rate * amount_tax,
 

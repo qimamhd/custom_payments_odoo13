@@ -72,6 +72,7 @@
                                         <tree editable="bottom" string="payment Lines">
 
                                             <!-- Displayed fields -->
+                                             <field name="tax_line"  />
                                              <field name="tax_line_id"  />
                                             <field name="account_id" string="رقم الحساب"  options="{'no_create': True}"/>
                                             <field name="partner_id" string ="الشريك"/>
