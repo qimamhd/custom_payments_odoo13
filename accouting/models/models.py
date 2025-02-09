@@ -680,7 +680,7 @@ class custom_payment(models.Model):
                                                 }
                                         
                                             new_line = rec.new({'paymt_lines': [(0, 0, new_account)]})
-                                            print("new_line+++++++++",new_line._origin.id)
+                                            print("new_line+++++++++",line.id)
                                         
                                             line.calc_local_amount()
                                         else:
