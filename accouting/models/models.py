@@ -685,6 +685,7 @@ class custom_payment(models.Model):
                                         
                                             line.calc_local_amount()
                                         else:
+                                            print("len(update_line)-----------",len(update_line))
                                             if len(update_line)== 1:
                                                 update_line.write({ 'account_id':tax_account_id,
                                                     'desc': tax_name,
@@ -698,6 +699,8 @@ class custom_payment(models.Model):
                                                     'l_local_amount': rec.curr_rate * amount_tax, })
                                                 line.calc_local_amount()
                                             else:
+                                                print("len(update_line)-----------2222",len(update_line))
+
                                                 new_account={
                                                 'account_id':tax_account_id,
                                                 'desc': tax_name,
