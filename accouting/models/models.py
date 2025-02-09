@@ -661,7 +661,7 @@ class custom_payment(models.Model):
                                     amount_tax =  line.l_payment_amount * (tax.amount/100)
                                     tax_name =   (tax.name)
                                     tax_account_id = tax.invoice_repartition_line_ids.filtered(lambda x: x.repartition_type == 'tax').account_id.id
-                                    print("tax-------------",tax_account_id)
+                                    print("tax_account_id-------------",tax_account_id)
 
                                     if tax_account_id:
                                         update_line = rec.paymt_lines.filtered(lambda x: x.tax_line and x.tax_line_id.id == line.id)
