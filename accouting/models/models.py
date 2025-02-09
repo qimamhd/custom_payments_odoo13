@@ -712,8 +712,8 @@ class custom_payment(models.Model):
 
                                                 }
                                         
-                                            new_line = rec.new({'paymt_lines': [(0, 0, new_account)]})
-                                            line.calc_local_amount()
+                                                new_line = rec.new({'paymt_lines': [(0, 0, new_account)]})
+                                                line.calc_local_amount()
                                     else:
                                         rec.update({'paymt_lines': [(3, line_s.id) for line_s in rec.paymt_lines.filtered(lambda x: x.tax_line and x.tax_line_id.id == line.account_id.id)]})
                                 else:   
