@@ -644,11 +644,11 @@ class custom_payment(models.Model):
             result['domain'] = [('custom_payment_id', '=', rec.id), ('type', '=', 'entry')]
             return result
    
-    @api.onchange('paymt_lines')
+    @api.onchange('paymt_lines.l_payment_amount')
     def calc_account_tax_amount(self):
         for rec in self:
             if rec.paymt_lines:
-                rec.update({'paymt_lines': [(3, line.id) for line in rec.paymt_lines.filtered(lambda x: x.tax_line)]})
+                # rec.update({'paymt_lines': [(3, line.id) for line in rec.paymt_lines.filtered(lambda x: x.tax_line)]})
                 for line in rec.paymt_lines:
                     if line.account_id:
                         if line.account_id.tax_ids:
@@ -664,26 +664,46 @@ class custom_payment(models.Model):
                                     print("tax-------------",tax_account_id)
 
                                     if tax_account_id:
-                                        
-                                        new_account={
-                                            'account_id':tax_account_id,
-                                            'desc': tax_name,
-                                            'l_payment_amount':amount_tax,
-                                            'currency_id':rec.currency_id.id,
-                                            'curr_rate':rec.curr_rate,
-                                            'pymt_id': rec.id,
-                                            'tax_line_id':line.id,
-                                                'tax_line':True,
-                                            # 'pymt_id': rec.pymt_id._origin.id,
-                                            'l_local_amount': rec.curr_rate * amount_tax,
+                                        update_line = rec.paymt_lines.filtered(lambda x: x.tax_line and line_s.tax_line_id.id == line.id)
+                                        if not update_line:
+                                            new_account={
+                                                'account_id':tax_account_id,
+                                                'desc': tax_name,
+                                                'l_payment_amount':amount_tax,
+                                                'currency_id':rec.currency_id.id,
+                                                'curr_rate':rec.curr_rate,
+                                                'pymt_id': rec.id,
+                                                'tax_line_id':line.id,
+                                                    'tax_line':True,
+                                                # 'pymt_id': rec.pymt_id._origin.id,
+                                                'l_local_amount': rec.curr_rate * amount_tax,
 
-                                            }
-                                    
-                                        new_line = rec.new({'paymt_lines': [(0, 0, new_account)]})
-                                        print("new_line+++++++++",new_line._origin.id)
-                                    
-                                        line.calc_local_amount()
-                            
+                                                }
+                                        
+                                            new_line = rec.new({'paymt_lines': [(0, 0, new_account)]})
+                                            print("new_line+++++++++",new_line._origin.id)
+                                        
+                                            line.calc_local_amount()
+                                        else:
+                                            update_line..write({ 'account_id':tax_account_id,
+                                                'desc': tax_name,
+                                                'l_payment_amount':amount_tax,
+                                                'currency_id':rec.currency_id.id,
+                                                'curr_rate':rec.curr_rate,
+                                                'pymt_id': rec.id,
+                                                'tax_line_id':line.id,
+                                                    'tax_line':True,
+                                                # 'pymt_id': rec.pymt_id._origin.id,
+                                                'l_local_amount': rec.curr_rate * amount_tax, })
+                                    else:
+                                         rec.update({'paymt_lines': [(3, line_s.id) for line_s in rec.paymt_lines.filtered(lambda x: x.tax_line and line_s.tax_line_id.id == line.id)]})
+                                else:   
+                                    rec.update({'paymt_lines': [(3, line_s.id) for line_s in rec.paymt_lines.filtered(lambda x: x.tax_line and line_s.tax_line_id.id == line.id)]})
+
+
+                            else:
+                                rec.update({'paymt_lines': [(3, line_s.id) for line_s in rec.paymt_lines.filtered(lambda x: x.tax_line and line_s.tax_line_id.id == line.id)]})
+ 
 
 class custom_payment_line(models.Model):
     _name = 'custom.account.payment.line'
