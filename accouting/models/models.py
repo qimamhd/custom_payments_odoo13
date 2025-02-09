@@ -698,8 +698,6 @@ class custom_payment(models.Model):
                                         rec.update({'paymt_lines': [(3, line_s.id) for line_s in rec.paymt_lines.filtered(lambda x: x.tax_line and x.tax_line_id.id == line.id)]})
                                 else:   
                                     rec.update({'paymt_lines': [(3, line_s.id) for line_s in rec.paymt_lines.filtered(lambda x: x.tax_line and x.tax_line_id.id == line.id)]})
-
-
                             else:
                                 rec.update({'paymt_lines': [(3, line_s.id) for line_s in rec.paymt_lines.filtered(lambda x: x.tax_line and x.tax_line_id.id == line.id)]})
  
