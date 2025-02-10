@@ -734,6 +734,8 @@ class custom_payment_line(models.Model):
                 tax_account_id = tax.invoice_repartition_line_ids.filtered(lambda x: x.repartition_type == 'tax').account_id.id
                            
             if tax_account_id:
+                    pymt_id = l.pymt_id.id or l._origin.pymt_id.id
+
                     # إنشاء السطر الجديد وإضافته مباشرةً
                     self.env['custom.account.payment.line'].create({
                         'account_id': tax_account_id,
@@ -743,7 +745,7 @@ class custom_payment_line(models.Model):
                         'curr_rate': l.curr_rate,
                         'tax_line_id': l.account_id.id,
                         'tax_line': True,
-                        'pymt_id': l.pymt_id._origin.id,  # التأكد من ربطه بالدفعة الأصلية
+                        'pymt_id': pymt_id,  # التأكد من ربطه بالدفعة الأصلية
                         'l_local_amount': l.curr_rate * amount_tax,
                     })
 
