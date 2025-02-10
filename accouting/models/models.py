@@ -652,6 +652,7 @@ class custom_payment(models.Model):
                 # rec.update({'paymt_lines': [(3, line.id) for line in rec.paymt_lines.filtered(lambda x: x.tax_line)]})
                 for line_t in rec.paymt_lines.filtered(lambda x: x.tax_line):
                     if line_t.account_id:
+                        print("-----------------1111")
                         account_ids =  rec.paymt_lines.filtered(lambda x: line_t.account_id.id in x.account_id.tax_ids.ids and x.include_tax_line).account_id
                         if account_ids:
                             account_amount =sum(l.l_payment_amount for l in rec.paymt_lines.filtered(lambda x:  x.account_id.id in account_ids.ids))
@@ -669,10 +670,10 @@ class custom_payment(models.Model):
             if rec.paymt_lines:
                 rec.update_account_tax_amount() 
                 print("-----------------2")
-                for line in rec.paymt_lines.filtered(lambda x: not x.tax_line):
+                for line in rec.paymt_lines.filtered(lambda x: not x.tax_line and not x.include_tax_line):
                     print("-----------------3")
                     
-                    if line.l_payment_amount and not line.include_tax_line:
+                    if line.l_payment_amount :
                         
                         tax = self.env['account.tax'].search([('id','in',line.account_id.tax_ids.ids)],limit=1)
                         print("tax-------------",tax)
