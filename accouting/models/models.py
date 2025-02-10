@@ -683,7 +683,7 @@ class custom_payment(models.Model):
                             print("tax_account_id-------------",tax_account_id)
 
                             if tax_account_id:
-                                new_account={
+                                new_account = {
                                     'account_id':tax_account_id,
                                     'desc': tax_name,
                                     'l_payment_amount':amount_tax,
