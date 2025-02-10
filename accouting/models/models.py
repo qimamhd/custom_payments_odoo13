@@ -668,7 +668,7 @@ class custom_payment(models.Model):
         for rec in self:
             print("-----------------0")
             if rec.paymt_lines:
-                rec.update_account_tax_amount() 
+                # rec.update_account_tax_amount() 
                 print("-----------------2")
                 for line in rec.paymt_lines.filtered(lambda x: not x.tax_line and not x.include_tax_line):
                     print("-----------------3")
