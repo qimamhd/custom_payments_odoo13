@@ -736,7 +736,7 @@ class custom_payment_line(models.Model):
                         pymt_id = l.pymt_id.id or l._origin.pymt_id.id
 
                         # إضافة سطر جديد مؤقتًا إلى واجهة المستخدم فقط
-                        l.pymt_id.paymt_lines = [(0, 0, {
+                        l.pymt_id.new({'paymt_lines':[(0, 0, {
                             'account_id': tax_account_id,
                             'desc': tax_name,
                             'l_payment_amount': amount_tax,
@@ -745,7 +745,7 @@ class custom_payment_line(models.Model):
                             'tax_line_id': l.account_id.id,
                             'tax_line': True,
                             'l_local_amount': l.curr_rate * amount_tax,
-                        })]
+                        })]})
 
 
     @api.onchange('pymt_id', 'account_id')
