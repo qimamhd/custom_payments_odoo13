@@ -693,7 +693,7 @@ class custom_payment(models.Model):
                                     'pymt_id': rec.id,
                                     'tax_line_id':line.account_id.id,
                                     'tax_line':True,
-                                    'pymt_id': rec.id,
+                                    
                                     'l_local_amount': rec.curr_rate * amount_tax,
 
                                     }
