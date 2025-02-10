@@ -665,7 +665,7 @@ class custom_payment(models.Model):
     @api.onchange('paymt_lines')
     def calc_account_tax_amount(self):
         for rec in self:
-         
+            print("-----------------0")
             if rec.paymt_lines:
                 rec.update_account_tax_amount() 
                 print("-----------------2")
