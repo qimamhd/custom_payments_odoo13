@@ -743,7 +743,7 @@ class custom_payment_line(models.Model):
                         'curr_rate': l.curr_rate,
                         'tax_line_id': l.account_id.id,
                         'tax_line': True,
-                        'pymt_id': l.pymt_id.id,  # التأكد من ربطه بالدفعة الأصلية
+                        'pymt_id': l.pymt_id._origin.id,  # التأكد من ربطه بالدفعة الأصلية
                         'l_local_amount': l.curr_rate * amount_tax,
                     })
 
