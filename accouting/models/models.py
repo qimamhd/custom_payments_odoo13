@@ -720,13 +720,8 @@ class custom_payment_line(models.Model):
     currency_id = fields.Many2one('res.currency', domain=[('active', '=', True)],
                                   default=lambda self: self.env.company.currency_id, readonly=True, required=True)
     desc = fields.Char(string='Description', required=True)
-    pymt_id = fields.Many2one('custom.account.payment', string='id')
+    pymt_id = fields.Many2one('custom.account.payment', string='Payment ID', required=True, ondelete='cascade')
 
-    @api.onchange('pymt_id', 'account_id')
-    def get_rate(self):
-        self.currency_id = self.pymt_id.currency_id
-        self.curr_rate = self.pymt_id.curr_rate
-    
     @api.onchange('l_payment_amount')
     def get_l_payment_amount(self):
 
@@ -738,23 +733,26 @@ class custom_payment_line(models.Model):
                 tax_name =   (tax.name)
                 tax_account_id = tax.invoice_repartition_line_ids.filtered(lambda x: x.repartition_type == 'tax').account_id.id
                            
-            new_account={
-                                    'account_id':tax_account_id,
-                                    'desc': tax_name,
-                                    'l_payment_amount':amount_tax,
-                                    'currency_id':l.currency_id.id,
-                                    'curr_rate':l.curr_rate,
-                                     
-                                    'tax_line_id':l.account_id.id,
-                                    'tax_line':True,
-                                    # 'pymt_id': rec.pymt_id._origin.id,
-                                    'l_local_amount': l.curr_rate * amount_tax,
-
-                                    }
-            
-            new_line = l.new({[(0, 0, new_account)]})
+            if tax_account_id:
+                    # إنشاء السطر الجديد وإضافته مباشرةً
+                    self.env['custom.account.payment.line'].create({
+                        'account_id': tax_account_id,
+                        'desc': tax_name,
+                        'l_payment_amount': amount_tax,
+                        'currency_id': l.currency_id.id,
+                        'curr_rate': l.curr_rate,
+                        'tax_line_id': l.account_id.id,
+                        'tax_line': True,
+                        'pymt_id': l.pymt_id.id,  # التأكد من ربطه بالدفعة الأصلية
+                        'l_local_amount': l.curr_rate * amount_tax,
+                    })
 
 
+    @api.onchange('pymt_id', 'account_id')
+    def get_rate(self):
+        self.currency_id = self.pymt_id.currency_id
+        self.curr_rate = self.pymt_id.curr_rate
+    
     @api.onchange('account_id')
     def get_partner(self):
         if self.account_id:
