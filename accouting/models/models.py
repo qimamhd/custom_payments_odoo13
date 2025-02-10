@@ -687,7 +687,7 @@ class custom_payment(models.Model):
                                         else:
                                             print("len(update_line)-----------",len(update_line))
                                             if len(update_line)== 1:
-                                                update_line.new({'account_id':tax_account_id,
+                                                update_line.write({'account_id':tax_account_id,
                                                     'desc': tax_name,
                                                     'l_payment_amount':amount_tax,
                                                     'currency_id':rec.currency_id.id,
