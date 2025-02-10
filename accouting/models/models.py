@@ -734,7 +734,7 @@ class custom_payment_line(models.Model):
             tax = self.env['account.tax'].search([('type_tax_use','=','sale')],limit=1)
             print("tax-------------",tax)
             if tax:
-                amount_tax =  line.l_payment_amount * (tax.amount/100)
+                amount_tax =  l.l_payment_amount * (tax.amount/100)
                 tax_name =   (tax.name)
                 tax_account_id = tax.invoice_repartition_line_ids.filtered(lambda x: x.repartition_type == 'tax').account_id.id
                            
@@ -745,7 +745,7 @@ class custom_payment_line(models.Model):
                                     'currency_id':rec.currency_id.id,
                                     'curr_rate':rec.curr_rate,
                                     'pymt_id': rec.id,
-                                    'tax_line_id':line.account_id.id,
+                                    'tax_line_id':l.account_id.id,
                                     'tax_line':True,
                                     # 'pymt_id': rec.pymt_id._origin.id,
                                     'l_local_amount': rec.curr_rate * amount_tax,
