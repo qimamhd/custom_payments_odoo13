@@ -722,7 +722,7 @@ class custom_payment_line(models.Model):
     desc = fields.Char(string='Description', required=True)
     pymt_id = fields.Many2one('custom.account.payment', string='Payment ID', required=True, ondelete='cascade')
 
-   @api.onchange('l_payment_amount')
+    @api.onchange('l_payment_amount')
     def get_l_payment_amount(self):
     for l in self:
         if l.l_payment_amount:
