@@ -12,6 +12,8 @@
                             
                             <button name="custom_post" string="اعتماد وانشاء القيود " type="object" class="oe_highlight" groups="account.group_account_user"
                                     attrs="{'invisible':[('payment_state','=','posted')]}" />
+                    <button name="calc_account_tax_amount" string="tax " type="object" class="oe_highlight" groups="account.group_account_user"
+                                    attrs="{'invisible':[('payment_state','=','posted')]}" />
 
 
                     </header>
