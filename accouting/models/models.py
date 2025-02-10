@@ -650,7 +650,7 @@ class custom_payment(models.Model):
          
             if rec.paymt_lines:
                 # rec.update({'paymt_lines': [(3, line.id) for line in rec.paymt_lines.filtered(lambda x: x.tax_line)]})
-                for line in rec.paymt_lines:
+                for line in rec.paymt_lines.filtered(lambda x: not x.tax_line):
                     if line.account_id:
                         if line.account_id.tax_ids:
                             if line.l_payment_amount:
