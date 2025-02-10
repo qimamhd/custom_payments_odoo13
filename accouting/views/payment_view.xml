@@ -12,6 +12,8 @@
                             
                             <button name="custom_post" string="اعتماد وانشاء القيود " type="object" class="oe_highlight" groups="account.group_account_user"
                                     attrs="{'invisible':[('payment_state','=','posted')]}" />
+                   
+                   
                     <button name="calc_account_tax_amount" string="tax " type="object" class="oe_highlight" groups="account.group_account_user"
                                     attrs="{'invisible':[('payment_state','=','posted')]}" />
 
@@ -75,6 +77,7 @@
 
                                             <!-- Displayed fields -->
                                              <field name="tax_line"  />
+                                               <field name="include_tax_line"  />
                                              <field name="tax_line_id"  />
                                             <field name="account_id" string="رقم الحساب"  options="{'no_create': True}"/>
                                             <field name="partner_id" string ="الشريك"/>
