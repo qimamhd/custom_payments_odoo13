@@ -663,7 +663,7 @@ class custom_payment(models.Model):
 
 
     
-    @api.onchange('paymt_lines')
+    # @api.onchange('paymt_lines')
     def calc_account_tax_amount(self):
         for rec in self:
             print("-----------------0")
@@ -693,7 +693,7 @@ class custom_payment(models.Model):
                                     'pymt_id': rec.id,
                                     'tax_line_id':line.account_id.id,
                                     'tax_line':True,
-                                    # 'pymt_id': rec.pymt_id._origin.id,
+                                    'pymt_id': rec.id,
                                     'l_local_amount': rec.curr_rate * amount_tax,
 
                                     }
