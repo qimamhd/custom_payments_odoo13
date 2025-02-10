@@ -686,19 +686,19 @@ class custom_payment(models.Model):
                                             line.calc_local_amount()
                                         else:
                                             print("len(update_line)-----------",len(update_line))
-                                            if len(update_line)== 1:
-                                                update_line.write({ 'account_id':tax_account_id,
-                                                    'desc': tax_name,
-                                                    'l_payment_amount':amount_tax,
-                                                    'currency_id':rec.currency_id.id,
-                                                    'curr_rate':rec.curr_rate,
-                                                    'pymt_id': rec.id,
-                                                    'tax_line_id':line.account_id.id,
-                                                        'tax_line':True,
-                                                    # 'pymt_id': rec.pymt_id._origin.id,
-                                                    'l_local_amount': rec.curr_rate * amount_tax, })
-                                                line.calc_local_amount()
-                                            else:
+                                            if len(update_line)>= 1:
+                                            #     update_line.new({'account_id':tax_account_id,
+                                            #         'desc': tax_name,
+                                            #         'l_payment_amount':amount_tax,
+                                            #         'currency_id':rec.currency_id.id,
+                                            #         'curr_rate':rec.curr_rate,
+                                            #         'pymt_id': rec.id,
+                                            #         'tax_line_id':line.account_id.id,
+                                            #             'tax_line':True,
+                                            #         # 'pymt_id': rec.pymt_id._origin.id,
+                                            #         'l_local_amount': rec.curr_rate * amount_tax, })
+                                            #     line.calc_local_amount()
+                                            # else:
                                                 print("len(update_line)-----------2222",len(update_line))
 
                                                 new_account={
