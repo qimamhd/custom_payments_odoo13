@@ -724,28 +724,28 @@ class custom_payment_line(models.Model):
 
     @api.onchange('l_payment_amount')
     def get_l_payment_amount(self):
-    for l in self:
-        if l.l_payment_amount:
-            tax = self.env['account.tax'].search([('type_tax_use', '=', 'sale')], limit=1)
-            if tax:
-                amount_tax = l.l_payment_amount * (tax.amount / 100)
-                tax_name = tax.name
-                tax_account_id = tax.invoice_repartition_line_ids.filtered(lambda x: x.repartition_type == 'tax').account_id.id
+        for l in self:
+            if l.l_payment_amount:
+                tax = self.env['account.tax'].search([('type_tax_use', '=', 'sale')], limit=1)
+                if tax:
+                    amount_tax = l.l_payment_amount * (tax.amount / 100)
+                    tax_name = tax.name
+                    tax_account_id = tax.invoice_repartition_line_ids.filtered(lambda x: x.repartition_type == 'tax').account_id.id
 
-                if tax_account_id:
-                    pymt_id = l.pymt_id.id or l._origin.pymt_id.id
+                    if tax_account_id:
+                        pymt_id = l.pymt_id.id or l._origin.pymt_id.id
 
-                    # إضافة سطر جديد مؤقتًا إلى واجهة المستخدم فقط
-                    l.pymt_id.paymt_lines = [(0, 0, {
-                        'account_id': tax_account_id,
-                        'desc': tax_name,
-                        'l_payment_amount': amount_tax,
-                        'currency_id': l.currency_id.id,
-                        'curr_rate': l.curr_rate,
-                        'tax_line_id': l.account_id.id,
-                        'tax_line': True,
-                        'l_local_amount': l.curr_rate * amount_tax,
-                    })]
+                        # إضافة سطر جديد مؤقتًا إلى واجهة المستخدم فقط
+                        l.pymt_id.paymt_lines = [(0, 0, {
+                            'account_id': tax_account_id,
+                            'desc': tax_name,
+                            'l_payment_amount': amount_tax,
+                            'currency_id': l.currency_id.id,
+                            'curr_rate': l.curr_rate,
+                            'tax_line_id': l.account_id.id,
+                            'tax_line': True,
+                            'l_local_amount': l.curr_rate * amount_tax,
+                        })]
 
 
     @api.onchange('pymt_id', 'account_id')
