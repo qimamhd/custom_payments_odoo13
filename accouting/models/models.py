@@ -710,7 +710,7 @@ class custom_payment_line(models.Model):
     _description = 'Accounting Payment Line'
     seq = fields.Integer()
     account_id = fields.Many2one('account.account', string='Account', required=True)
-    tax_line_id = fields.Manymany('custom.account.payment.line',)
+    tax_line_id = fields.Many2many('custom.account.payment.line',)
     tax_id = fields.Many2one('account.tax')
     tax_line = fields.Boolean(default=False)
     include_tax_line = fields.Boolean(default=False)
