@@ -698,7 +698,7 @@ class custom_payment(models.Model):
 
                                     }
                                 print("-----------------4")
-                                rec.write({'paymt_lines': [(0, 0, new_account)]})
+                                rec.new({'paymt_lines': [(0, 0, new_account)]})
                                 line.write({'include_tax_line':True})    
                                 
                                 line.calc_local_amount()
