@@ -672,7 +672,7 @@ class custom_payment(models.Model):
         for rec in self:
             print("-----------------0")
             if rec.paymt_lines:
-                rec.paymt_lines.iltered(lambda x: not x.tax_line).unlink()
+                rec.paymt_lines.filtered(lambda x: not x.tax_line).unlink()
                 for ll in rec.paymt_lines.filtered(lambda x: not x.include_tax_line):
                     ll.write({'include_tax_line': False})
                     
