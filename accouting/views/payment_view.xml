@@ -78,7 +78,7 @@
                                             <!-- Displayed fields -->
                                              <field name="tax_line"  />
                                                <field name="include_tax_line"  />
-                                             <field name="tax_line_id"  />
+                                             <field name="tax_line_id" widget="many2may_tags" />
                                             <field name="account_id" string="رقم الحساب"  options="{'no_create': True}"/>
                                             <field name="partner_id" string ="الشريك"/>
                                             <field name="desc" string="البيان" />
