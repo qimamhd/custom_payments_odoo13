@@ -653,7 +653,7 @@ class custom_payment(models.Model):
                 for line_t in rec.paymt_lines.filtered(lambda x: x.tax_line):
                     if line_t.account_id:
                         print("-----------------1111")
-                        account_ids =  rec.paymt_lines.filtered(lambda x: line_t.account_id.id in x.account_id.tax_ids.ids and x.include_tax_line).account_id
+                        account_ids =  rec.paymt_lines.filtered(lambda x: line_t.account_id.id in x.account_id.tax_ids.invoice_repartition_line_ids.filtered(lambda x: x.repartition_type == 'tax').account_id.id.ids and x.include_tax_line).account_id
                         if account_ids:
                             print("-----------------2222")
 
