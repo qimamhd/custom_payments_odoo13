@@ -800,9 +800,9 @@ class custom_payment_line(models.Model):
     def unlink(self):
 
         if self.tax_line:
-            lines = self.pymt_id.paymt_lines.filtered(lambda x: x.account_id in self.account_ids)
+            lines = self.pymt_id.paymt_lines.filtered(lambda x: x.account_id in self.tax_line_id.ids)
             for l in lines:
-                l.write({'tax_line': False})
+                l.write({'include_tax_line': False})
 
 
         return super(custom_payment_line, self).unlink()
