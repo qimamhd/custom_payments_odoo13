@@ -672,6 +672,11 @@ class custom_payment(models.Model):
         for rec in self:
             print("-----------------0")
             if rec.paymt_lines:
+                rec.paymt_lines.iltered(lambda x: not x.tax_line).unlink()
+                for ll in rec.paymt_lines.iltered(lambda x: not x.include_tax_line):
+                    ll.write({'include_tax_line': False})
+                    
+
                 rec.update_account_tax_amount() 
                 print("-----------------2")
                 for line in rec.paymt_lines.filtered(lambda x: not x.tax_line and not x.include_tax_line):
@@ -797,13 +802,13 @@ class custom_payment_line(models.Model):
     
     
     
-    def unlink(self):
+    # def unlink(self):
 
-        if self.tax_line:
-            lines = self.pymt_id.paymt_lines.filtered(lambda x: x.account_id in self.tax_line_id.ids)
-            for l in lines:
-                l.write({'include_tax_line': False})
+    #     if self.tax_line:
+    #         lines = self.pymt_id.paymt_lines.filtered(lambda x: x.account_id in self.tax_line_id.ids)
+    #         for l in lines:
+    #             l.write({'include_tax_line': False})
 
 
-        return super(custom_payment_line, self).unlink()
+    #     return super(custom_payment_line, self).unlink()
    
