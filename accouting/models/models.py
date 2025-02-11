@@ -710,7 +710,7 @@ class custom_payment_line(models.Model):
     _description = 'Accounting Payment Line'
     seq = fields.Integer()
     account_id = fields.Many2one('account.account', string='Account', required=True)
-    tax_line_id = fields.Many2one('account.account',)
+    tax_line_id = fields.Many2many('account.account',)
     tax_id = fields.Many2one('account.tax')
     tax_line = fields.Boolean(default=False)
     include_tax_line = fields.Boolean(default=False)
@@ -795,6 +795,13 @@ class custom_payment_line(models.Model):
     
     
     
-    def write(self, vals):
-        res = super(custom_payment_line, self).write(vals)
-        print('vals',vals)
+    def unlink(self):
+
+        if self.tax_line:
+            lines = self.pymt_id.paymt_lines.filtered(lambda x: x.account_id in self.account_ids)
+            for l in lines:
+                l.write({'tax_line': False})
+
+
+        return super(custom_payment_line, self).unlink()
+   
