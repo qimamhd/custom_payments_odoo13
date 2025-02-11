@@ -666,10 +666,10 @@ class custom_payment(models.Model):
                                               })
 
 
-    @api.constrains('paymt_lines')
-    def create_tax_lines(self):
-        for rec in self:
-            rec.calc_account_tax_amount()
+    # @api.constrains('paymt_lines')
+    # def create_tax_lines(self):
+    #     for rec in self:
+    #         rec.calc_account_tax_amount()
     
     # @api.onchange('paymt_lines')
     def calc_account_tax_amount(self):
