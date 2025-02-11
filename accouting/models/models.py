@@ -655,6 +655,8 @@ class custom_payment(models.Model):
                         print("-----------------1111")
                         account_ids =  rec.paymt_lines.filtered(lambda x: line_t.account_id.id in x.account_id.tax_ids.ids and x.include_tax_line).account_id
                         if account_ids:
+                            print("-----------------2222")
+
                             account_amount =sum(l.l_payment_amount for l in rec.paymt_lines.filtered(lambda x:  x.account_id.id in account_ids.ids))
                             amount_tax =  account_amount * (line_t.tax_id.amount/100)
                             tax_name =   (line_t.tax_id.name)
