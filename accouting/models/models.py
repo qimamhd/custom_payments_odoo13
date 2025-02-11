@@ -659,16 +659,18 @@ class custom_payment(models.Model):
                             amount_tax =  account_amount * (line_t.tax_id.amount/100)
                             tax_name =   (line_t.tax_id.name)
                             line_t.update({  'l_payment_amount':amount_tax,
-                                              'l_local_amount': rec.curr_rate * amount_tax, })
+                                              'l_local_amount': rec.curr_rate * amount_tax, 
+                                                      'tax_line_id':[(4,line.id)],
+                                              })
 
 
     
-    @api.onchange('paymt_lines')
+    # @api.onchange('paymt_lines')
     def calc_account_tax_amount(self):
         for rec in self:
             print("-----------------0")
             if rec.paymt_lines:
-                # rec.update_account_tax_amount() 
+                rec.update_account_tax_amount() 
                 print("-----------------2")
                 for line in rec.paymt_lines.filtered(lambda x: not x.tax_line and not x.include_tax_line):
                     print("-----------------3")
@@ -691,9 +693,8 @@ class custom_payment(models.Model):
                                     'currency_id':rec.currency_id.id,
                                     'curr_rate':rec.curr_rate,
                                     'pymt_id': rec.id,
-                                    'tax_line_id':line.account_id.id,
+                                    'tax_line_id':[(4,line.id)],
                                     'tax_line':True,
-                                    
                                     'l_local_amount': rec.curr_rate * amount_tax,
 
                                     }
@@ -709,7 +710,7 @@ class custom_payment_line(models.Model):
     _description = 'Accounting Payment Line'
     seq = fields.Integer()
     account_id = fields.Many2one('account.account', string='Account', required=True)
-    tax_line_id = fields.Many2one('account.account',)
+    tax_line_id = fields.Manymany('custom.account.payment.line',)
     tax_id = fields.Many2one('account.tax')
     tax_line = fields.Boolean(default=False)
     include_tax_line = fields.Boolean(default=False)
