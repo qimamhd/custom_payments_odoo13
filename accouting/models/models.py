@@ -660,7 +660,7 @@ class custom_payment(models.Model):
                             tax_name =   (line_t.tax_id.name)
                             line_t.update({  'l_payment_amount':amount_tax,
                                               'l_local_amount': rec.curr_rate * amount_tax, 
-                                            'tax_line_id':[(4,line.id)] ,
+                                            'tax_line_id':[(4,line_t.accouny_id.id)] ,
                                               })
 
 
@@ -693,7 +693,7 @@ class custom_payment(models.Model):
                                     'currency_id':rec.currency_id.id,
                                     'curr_rate':rec.curr_rate,
                                     'pymt_id': rec.id,
-                                    'tax_line_id':[(4,line.id)] ,
+                                    'tax_line_id':[(4,line.account_id.id)] ,
                                     'tax_line':True,
                                     'l_local_amount': rec.curr_rate * amount_tax,
 
