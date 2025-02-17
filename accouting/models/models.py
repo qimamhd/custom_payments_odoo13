@@ -237,6 +237,7 @@ class custom_payment(models.Model):
                     'type': 'entry',
                     'journal_id': payment.journal_id.id,
                     'company_id': payment.company_id.id,
+                    'branch_id': payment.branch_id.id,
                     'currency_id': payment.currency_id.id,
                     # 'amount_total': payment.payment_amount, #if payment.check_multi_currency and (payment.company_id.currency_id.id != line.currency_id.id) else payment.local_amount,
                     # 'amount_total_signed': payment.local_amount, #if payment.check_multi_currency and (payment.company_id.currency_id.id != line.currency_id.id) else payment.local_amount,
