@@ -48,7 +48,7 @@ class custom_payment(models.Model):
     type_id = fields.Char()
     journal_id = fields.Many2one('account.journal', string='Journal', required=True,
                                  domain=[('multi_payment_journal_id','=',True),('type', '=', ['cash', 'bank'])])
-    payment_date = fields.Date(default=date.today(), required=True)
+    payment_date = fields.Date(default=fields.Date.today , required=True)
     payment_state = fields.Selection([
         ('draft', 'Un Posted'),
         ('posted', 'Posted')], string='Payment State', required=True)
