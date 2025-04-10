@@ -8,13 +8,13 @@
                 <form>
                     <header>
                          <button name="action_draft" string="الغاء الاعتماد وحذف القيود" type="object" class="oe_highlight" groups="custom_payments_odoo13.group_delete_pym_users"
-                                    attrs="{'invisible':[('payment_state','=','draft')]}" />
+                                    attrs="{'invisible':[('payment_state','in',['draft','cancel'])]}" />
                     
                         <button name="cancel_payment_btn" string="الغاء السند" type="object" class="oe_highlight" groups="custom_payments_odoo13.group_delete_pym_users"
                                     attrs="{'invisible':[('payment_state','=','cancel')]}" />
                         
                         <button name="custom_post" string="اعتماد وانشاء القيود " type="object" class="oe_highlight"  
-                                    attrs="{'invisible':[('payment_state','=','posted')]}" groups="account.group_account_user" />
+                                    attrs="{'invisible':[('payment_state','in',['posted','cancel'])]}" groups="account.group_account_user" />
                    
                    
                     <button name="calc_account_tax_amount" string="احتساب الضرائب " type="object" class="oe_highlight"  
