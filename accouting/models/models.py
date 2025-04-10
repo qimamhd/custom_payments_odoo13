@@ -395,7 +395,8 @@ class custom_payment(models.Model):
 
                 # for line_inv in moves.line_ids:
                 #     print("line_inv",line_inv)
-                moves.write({'line_ids': [(5, )]})
+                # moves.write({'line_ids': [(5, )]})
+                moves.line_ids.unlink()
 
                 moves.write({
                     'date': payment.payment_date,
@@ -502,32 +503,32 @@ class custom_payment(models.Model):
     def custom_post(self):
         for rec in self:
             
-            # if (round(rec.total_cr,2) != round(rec.total_dr,2)) or ((round(rec.total_cr,2) == 0) or (round(rec.total_dr,2) == 0)):
-            #     raise ValidationError("لا يمكن الحفظ الارصدة غير متزنة")
+            if (round(rec.total_cr,2) != round(rec.total_dr,2)) or ((round(rec.total_cr,2) == 0) or (round(rec.total_dr,2) == 0)):
+                raise ValidationError("لا يمكن الحفظ الارصدة غير متزنة")
 
-            # if not rec.check_multi_currency and (rec.payment_amount != rec.local_amount):
-            #     raise ValidationError(
-            #         "لا يمكن الحفظ بسبب مبلغ السند لا يساوي مبلغ المعادل لعملة المؤسسة .. قد يكون السبب السند تم انشاءة في تعدد العملات..يجب حذفه وانشاءة من جديد ")
+            if not rec.check_multi_currency and (rec.payment_amount != rec.local_amount):
+                raise ValidationError(
+                    "لا يمكن الحفظ بسبب مبلغ السند لا يساوي مبلغ المعادل لعملة المؤسسة .. قد يكون السبب السند تم انشاءة في تعدد العملات..يجب حذفه وانشاءة من جديد ")
 
-            # moves =''
-            # if rec.payment_state != 'draft':
-            #     raise ValidationError("Only a draft payment can be posted.")
+            moves =''
+            if rec.payment_state != 'draft':
+                raise ValidationError("Only a draft payment can be posted.")
 
             
-            # else:
-            #     moves = self.env['account.move'].search([('custom_payment_id', '=', self.id)])
-            #     if moves:
-            #         rec._update_payment_moves(moves)
+            else:
+                moves = self.env['account.move'].search([('custom_payment_id', '=', self.id)])
+                if moves:
+                    rec._update_payment_moves(moves)
 
-            #     else:
-            #         moves = self.env['account.move'].create(rec._prepare_payment_moves())
+                else:
+                    moves = self.env['account.move'].create(rec._prepare_payment_moves())
 
-            # if self.check_auto_posted:
-            #     moves.action_post()
-            #     if rec.account_move_seq:
-            #         moves.write({'name': rec.account_move_seq })
-            #     else:
-            #         rec.write(({'account_move_seq': moves.name}))
+            if self.check_auto_posted:
+                moves.action_post()
+                if rec.account_move_seq:
+                    moves.write({'name': rec.account_move_seq })
+                else:
+                    rec.write(({'account_move_seq': moves.name}))
             rec.write({'payment_state': 'posted'})
 
         return True
