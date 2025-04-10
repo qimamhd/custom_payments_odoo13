@@ -51,7 +51,8 @@ class custom_payment(models.Model):
     payment_date = fields.Date(default=fields.Date.today , required=True)
     payment_state = fields.Selection([
         ('draft', 'Un Posted'),
-        ('posted', 'Posted')], string='Payment State', required=True)
+        ('posted', 'Posted'),
+         ('cancel', 'cancel')], string='Payment State', required=True)
     local_amount = fields.Float(string='local_amount', readonly=True, required=True, compute='_calc_local_amount')
     payment_amt_char = fields.Char(readonly=True)
     owner_name = fields.Char()
@@ -553,10 +554,22 @@ class custom_payment(models.Model):
         else:
             self.write({'payment_state': 'draft'})
 
+
+    def cancel_payment_btn(self):
+        for rec in self:
+            
+            moves = self.env['account.move'].search([('custom_payment_id', '=', self.id)])
+            if moves:
+                moves.button_draft()
+                moves.button_cancel()
+            
+            rec.write({'payment_state': 'cancel'})
+
     def unlink(self):
         for rec in self:
-            if rec.payment_state == 'posted':
-                raise ValidationError("You cannot delete a payment that is already posted.")
+            moves = self.env['account.move'].search([('custom_payment_id', '=', self.id)])
+            if rec.payment_state == 'posted' or moves:
+                raise ValidationError("You cannot delete a payment that is already posted or related with journal entry.")
         return super(custom_payment, self).unlink()
 
     @api.constrains('payment_seq', 'total_dr', 'total_cr', 'paymt_lines', 'payment_amount', 'local_amount',

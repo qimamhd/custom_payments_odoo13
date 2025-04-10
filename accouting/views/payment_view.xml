@@ -9,8 +9,11 @@
                     <header>
                          <button name="action_draft" string="الغاء الاعتماد وحذف القيود" type="object" class="oe_highlight" groups="custom_payments_odoo13.group_delete_pym_users"
                                     attrs="{'invisible':[('payment_state','=','draft')]}" />
-                            
-                            <button name="custom_post" string="اعتماد وانشاء القيود " type="object" class="oe_highlight"  
+                    
+                        <button name="cancel_payment_btn" string="الغاء السند" type="object" class="oe_highlight" groups="custom_payments_odoo13.group_delete_pym_users"
+                                    attrs="{'invisible':[('payment_state','=','cancel')]}" />
+                        
+                        <button name="custom_post" string="اعتماد وانشاء القيود " type="object" class="oe_highlight"  
                                     attrs="{'invisible':[('payment_state','=','posted')]}" groups="account.group_account_user" />
                    
                    
@@ -42,37 +45,37 @@
                          <br></br><br></br>
                             <group>
                                 <group string="معلومات السند">
-                                    <field name="payment_seq" string="رقم السند" attrs="{'readonly':[('payment_state','=','posted')]}"/>
-                                    <field name="payment_date" string="تاريخ السند"  attrs="{'readonly':[('payment_state','=','posted')]}"/>
+                                    <field name="payment_seq" string="رقم السند" attrs="{'readonly':[('payment_state','!=','draft')]}"/>
+                                    <field name="payment_date" string="تاريخ السند"  attrs="{'readonly':[('payment_state','!=','draft')]}"/>
                                     <field name="payment_state" string="حالة السند"  readonly="1"/>
-                                    <field name="applied_by" string="طلب بواسطة " attrs="{'readonly':[('payment_state','=','posted')]}"/>
-                                    <field name="pay_type" string="طريقة الدفع" attrs="{'readonly':[('payment_state','=','posted')]}"/>
-                                    <field name="cost_cnr_id" string="مركز التكلفة" attrs="{'readonly':[('payment_state','=','posted')]}"/>
-                                    <field name="sales_man_id" options="{'no_quick_create':True,'no_create_edit':True,'no_open': True,'no_create': True}" string="مندوب المبيعات" attrs="{'invisible':[('payment_type','=','issue')],'readonly':[('payment_state','=','posted')]}"/>
+                                    <field name="applied_by" string="طلب بواسطة " attrs="{'readonly':[('payment_state','!=','draft')]}"/>
+                                    <field name="pay_type" string="طريقة الدفع" attrs="{'readonly':[('payment_state','!=','draft')]}"/>
+                                    <field name="cost_cnr_id" string="مركز التكلفة" attrs="{'readonly':[('payment_state','!=','draft')]}"/>
+                                    <field name="sales_man_id" options="{'no_quick_create':True,'no_create_edit':True,'no_open': True,'no_create': True}" string="مندوب المبيعات" attrs="{'invisible':[('payment_type','=','issue')],'readonly':[('payment_state','!=','draft')]}"/>
 
                                     <field name="check_multi_currency" invisible="1"/>
                                 </group>
                                 <group string="معلومات الدفع">
-                                    <field name="journal_id" string="من حساب"  options="{'no_create': True}" attrs="{'readonly':[('payment_state','=','posted')]}"/>
-                                    <field name="payment_amount" string="مبلغ السند" attrs="{'readonly':[('payment_state','=','posted')]}"/>
-                                    <field name="currency_id" string="عملة السند" options="{'no_create': True}" groups="base.group_multi_currency" attrs="{'readonly':[('payment_state','=','posted')]}"/>
-                                    <field name="curr_rate" string="سعر الصرف" options="{'no_create': True}" groups="base.group_multi_currency" attrs="{'readonly':[('payment_state','=','posted')]}"/>
-                                    <field name="local_amount" string="المقابل بعملة المحلية" groups="base.group_multi_currency" attrs="{'readonly':[('payment_state','=','posted')]}"/>
-                                    <field name="payment_amt_char" string="مبلغ كتابتا"  attrs="{'readonly':[('payment_state','=','posted')]}"/>
+                                    <field name="journal_id" string="من حساب"  options="{'no_create': True}" attrs="{'readonly':[('payment_state','!=','draft')]}"/>
+                                    <field name="payment_amount" string="مبلغ السند" attrs="{'readonly':[('payment_state','!=','draft')]}"/>
+                                    <field name="currency_id" string="عملة السند" options="{'no_create': True}" groups="base.group_multi_currency" attrs="{'readonly':[('payment_state','!=','draft')]}"/>
+                                    <field name="curr_rate" string="سعر الصرف" options="{'no_create': True}" groups="base.group_multi_currency" attrs="{'readonly':[('payment_state','!=','draft')]}"/>
+                                    <field name="local_amount" string="المقابل بعملة المحلية" groups="base.group_multi_currency" attrs="{'readonly':[('payment_state','!=','draft')]}"/>
+                                    <field name="payment_amt_char" string="مبلغ كتابتا" attrs="{'readonly':[('payment_state','!=','draft')]}"/>
                                 </group>
                                 <group string="معلومات المستلم / المستفيد">
-                                    <field name="owner_name" string="اسم المستلم / المستفيد" attrs="{'readonly':[('payment_state','=','posted')]}"/>
-                                    <field name="desc" string="البيان"  attrs="{'readonly':[('payment_state','=','posted')]}"/>
+                                    <field name="owner_name" string="اسم المستلم / المستفيد" attrs="{'readonly':[('payment_state','!=','draft')]}"/>
+                                    <field name="desc" string="البيان" attrs="{'readonly':[('payment_state','!=','draft')]}"/>
                                 </group>
                                 <group  string="معلومات المؤسسة" >
-                                    <field name="company_id" string="الشركة"  options="{'no_create': True}" groups="base.group_multi_company" attrs="{'readonly':[('payment_state','=','posted')]}"/>
+                                    <field name="company_id" string="الشركة"  options="{'no_create': True}" groups="base.group_multi_company" attrs="{'readonly':[('payment_state','!=','draft')]}"/>
 <!--                                    <field name="company_branch_id" string="الفرع"  options="{'no_create': True}" attrs="{'readonly':[('payment_state','=','posted')]}"/>-->
 
                                 </group>
                             </group>
                             <notebook>
                                 <page string="تفاصيل السند">
-                                    <field name="paymt_lines" attrs="{'readonly':[('payment_state','=','posted')]}">
+                                    <field name="paymt_lines" attrs="{'readonly':[('payment_state','!=','draft')]}">
                                         <tree editable="bottom" string="payment Lines">
 
                                             <!-- Displayed fields -->
@@ -94,8 +97,8 @@
                                 </page>
                                  <page string="معلومات اخرى">
                                     <group  string="معلومات عن المستلم / المستفيد">
-                                     <field name="owner_info_bank" string="معلومات بنك المستلم / المستفيد"  attrs="{'readonly':[('payment_state','=','posted')]}"/>
-                                    <field name="cheq_no" string="رقم الشيك" attrs="{'readonly':[('payment_state','=','posted')]}"/>
+                                     <field name="owner_info_bank" string="معلومات بنك المستلم / المستفيد"  attrs="{'readonly':[('payment_state','!=','draft')]}"/>
+                                    <field name="cheq_no" string="رقم الشيك" attrs="{'readonly':[('payment_state','!=','draft')]}"/>
                                      <field name="check_auto_posted" string="الترحيل الالي" readonly="1"/>
 
                                 </group>
