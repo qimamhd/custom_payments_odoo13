@@ -50,9 +50,9 @@ class custom_payment(models.Model):
                                  domain=[('multi_payment_journal_id','=',True),('type', '=', ['cash', 'bank'])])
     payment_date = fields.Date(default=fields.Date.today , required=True)
     payment_state = fields.Selection([
-        ('draft', 'Un Posted'),
-        ('posted', 'Posted'),
-         ('cancel', 'cancel')], string='Payment State', required=True)
+        ('draft', 'مسودة'),
+        ('posted', 'مرحل'),
+         ('cancel', 'ملغي')], string='Payment State', required=True)
     local_amount = fields.Float(string='local_amount', readonly=True, required=True, compute='_calc_local_amount')
     payment_amt_char = fields.Char(readonly=True)
     owner_name = fields.Char()

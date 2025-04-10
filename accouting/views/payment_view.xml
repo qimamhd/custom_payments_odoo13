@@ -20,6 +20,7 @@
                     <button name="calc_account_tax_amount" string="احتساب الضرائب " type="object" class="oe_highlight"  
                                     attrs="{'invisible':[('payment_state','=','posted')]}" />
 
+                    <field name="payment_state" widget="statusbar" statusbar_visible="draft,posted,cancel" nolabel="1" readonly="1"/>
 
                     </header>
                      <sheet>
@@ -47,7 +48,7 @@
                                 <group string="معلومات السند">
                                     <field name="payment_seq" string="رقم السند" attrs="{'readonly':[('payment_state','!=','draft')]}"/>
                                     <field name="payment_date" string="تاريخ السند"  attrs="{'readonly':[('payment_state','!=','draft')]}"/>
-                                    <field name="payment_state" string="حالة السند"  readonly="1"/>
+                                    <!-- <field name="payment_state" string="حالة السند"  readonly="1"/> -->
                                     <field name="applied_by" string="طلب بواسطة " attrs="{'readonly':[('payment_state','!=','draft')]}"/>
                                     <field name="pay_type" string="طريقة الدفع" attrs="{'readonly':[('payment_state','!=','draft')]}"/>
                                     <field name="cost_cnr_id" string="مركز التكلفة" attrs="{'readonly':[('payment_state','!=','draft')]}"/>
