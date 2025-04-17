@@ -589,10 +589,10 @@ class custom_payment(models.Model):
             print(self.payment_type)
 
             if x > 1:
-                self._get_default_name()
-                # raise ValidationError(
-                #     "-------Exists ! Already Receipt SEQ exists in this NUMBER : %s No. of duplicate %s" % (
-                #         self.payment_seq, x))
+                # self._get_default_name()
+                raise ValidationError(
+                    "-------Exists ! Already Receipt SEQ exists in this NUMBER : %s No. of duplicate %s" % (
+                        self.payment_seq, x))
         else:
             if self.payment_type == 'issue':
                 seqs = self.env['custom.account.payment'].search([('payment_type', '=', self.payment_type)])
@@ -603,10 +603,10 @@ class custom_payment(models.Model):
                 print(self.payment_type)
 
                 if x > 1:
-                    self._get_default_name()
-                    # raise ValidationError(
-                    #     "-------Exists ! Already Issue SEQ exists in this NUMBER : %s No. of duplicate %s" % (
-                    #         self.payment_seq, x))
+                    # self._get_default_name()
+                    raise ValidationError(
+                        "-------Exists ! Already Issue SEQ exists in this NUMBER : %s No. of duplicate %s" % (
+                            self.payment_seq, x))
 
         print("self.total_cr",self.total_cr)
         print("self.total_dr",self.total_dr)
