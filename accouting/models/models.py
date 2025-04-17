@@ -518,7 +518,8 @@ class custom_payment(models.Model):
 
             
             else:
-                rec._get_default_name()
+                if not rec.payment_seq:
+                    rec._get_default_name()
                 moves = self.env['account.move'].search([('custom_payment_id', '=', self.id)])
                 if moves:
                     rec._update_payment_moves(moves)
