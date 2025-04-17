@@ -146,7 +146,7 @@ class custom_payment(models.Model):
     def _default_multi_currency_policy(self):
         return self.user_has_groups('base.group_multi_currency')
 
-    @api.onchange('payment_type')
+    # @api.onchange('payment_type')
     def _get_default_name(self):
         # print(self.env.context.get('report_name', False))
         print(self.payment_type)
@@ -503,6 +503,7 @@ class custom_payment(models.Model):
 
     def custom_post(self):
         for rec in self:
+
             
             if (round(rec.total_cr,2) != round(rec.total_dr,2)) or ((round(rec.total_cr,2) == 0) or (round(rec.total_dr,2) == 0)):
                 raise ValidationError("لا يمكن الحفظ الارصدة غير متزنة")
@@ -517,6 +518,7 @@ class custom_payment(models.Model):
 
             
             else:
+                rec._get_default_name()
                 moves = self.env['account.move'].search([('custom_payment_id', '=', self.id)])
                 if moves:
                     rec._update_payment_moves(moves)
