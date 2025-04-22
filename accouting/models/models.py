@@ -575,6 +575,7 @@ class custom_payment(models.Model):
             moves = self.env['account.move'].search([('custom_payment_id', '=', self.id)])
             if moves:
                 moves.button_draft()
+                moves.line_ids.unlink()
                 
             
             rec.write({'payment_state': 'draft'})
