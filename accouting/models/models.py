@@ -563,10 +563,24 @@ class custom_payment(models.Model):
             
             moves = self.env['account.move'].search([('custom_payment_id', '=', self.id)])
             if moves:
-                moves.button_draft()
+                # moves.button_draft()
                 moves.button_cancel()
             
             rec.write({'payment_state': 'cancel'})
+
+    def reset_to_draft_btn(self):
+        for rec in self:
+            
+            moves = self.env['account.move'].search([('custom_payment_id', '=', self.id)])
+            if moves:
+                moves.button_draft()
+                
+            
+            rec.write({'payment_state': 'draft'})
+    
+
+
+
 
     def unlink(self):
         for rec in self:
