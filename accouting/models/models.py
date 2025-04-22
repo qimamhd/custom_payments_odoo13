@@ -398,6 +398,7 @@ class custom_payment(models.Model):
                 #     print("line_inv",line_inv)
                 # moves.write({'line_ids': [(5, )]})
                 moves.line_ids.unlink()
+                print("moves", moves.line_ids)
 
                 moves.write({
                     'date': payment.payment_date,
